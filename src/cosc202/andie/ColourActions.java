@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -35,6 +36,7 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new AdjustBrightnessAndContrastAction("Brightness & Contrast", null, "Adjust the brightness and/or contrast", null));
     }
 
     /**
@@ -96,5 +98,71 @@ public class ColourActions {
         }
 
     }
+
+    /**
+     * <p>
+     * Action to adjust the brightness and contrast of an image.
+     * </p>
+     * 
+     * @see AdjustBrightnessAndContrast
+     */
+    public class AdjustBrightnessAndContrastAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new adjust-brightness-and-contrast action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        AdjustBrightnessAndContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the adjust-brightness-and-contrast action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the AdjustBrightnessAndContrastAction is triggered.
+         * It adjusts the brightness of the image.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            int brightness = 0;
+            int contrast = 0;
+
+            JPanel optionPanel = new JPanel(new GridLayout(0, 1));
+            JSlider brightnessSlider = new JSlider(-100, 100, brightness);
+            JSlider contrastSlider = new JSlider(-100, 100, contrast);
+
+            optionPanel.add(new JLabel("Brightness:"));
+            optionPanel.add(brightnessSlider);
+            optionPanel.add(new JLabel("Contrast:"));
+            optionPanel.add(contrastSlider);
+
+            
+            int selectedOption = JOptionPane.showOptionDialog(null, optionPanel, "Adjust Brightness and Contrast", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            
+            if(selectedOption == JOptionPane.CANCEL_OPTION){
+                return;
+            }else if(selectedOption == JOptionPane.OK_OPTION){
+                brightness = brightnessSlider.getValue();
+                contrast = contrastSlider.getValue();
+            }
+
+            target.getImage().apply(new AdjustBrightnessAndContrast(brightness, contrast));
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+
 
 }
