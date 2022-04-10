@@ -274,4 +274,29 @@ class EditableImage {
         }
     }
 
+/**
+    * <p>
+    * Export the current image to a designated filename
+    * </p>
+    *
+    * <p>
+    * Uses the address of the current imageFilename to specify the location of the exported image
+    * note that this means that the exported image is always saved to the current working directory
+    * </p>
+    *
+    * @param fileName the name which the exported image is to be saved to.
+    */
+    public void export(String fileName){
+        String prior = this.imageFilename.substring(0,this.imageFilename.lastIndexOf("/"));
+        String filePathName = prior + "/" + fileName + ".jpg";
+        this.imageFilename = filePathName;
+        try{
+           String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
+           ImageIO.write(current, extension, new File(imageFilename));
+        }catch(Exception ex){
+           System.out.println("exception");
+        }
+     }
+  
+    
 }
