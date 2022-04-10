@@ -83,6 +83,9 @@ public class Andie {
         // Actions that affect the representation of colour in the image
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
+
+        TransformsActions transformsActions = new TransformsActions();
+        menuBar.add(transformsActions.createMenu());
         
         frame.setJMenuBar(menuBar);
         frame.pack();
