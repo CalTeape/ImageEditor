@@ -26,6 +26,7 @@ public class EditActions {
     
     /** A list of actions for the Edit menu. */
     protected ArrayList<Action> actions;
+    protected ArrayList<Action> tools;
 
     /**
      * <p>
@@ -34,8 +35,11 @@ public class EditActions {
      */
     public EditActions() {
         actions = new ArrayList<Action>();
+        tools = new ArrayList<Action>();
         actions.add(new UndoAction("Undo", null, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
         actions.add(new RedoAction("Redo", null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
+        tools.add(new UndoAction("", new ImageIcon("./src/imageIcons/undo.jpg"), "Undo", Integer.valueOf(KeyEvent.VK_Z)));
+        tools.add(new RedoAction("", new ImageIcon("./src/imageIcons/redo.jpg"), "Redo", Integer.valueOf(KeyEvent.VK_Y)));
     }
 
     /**
@@ -53,6 +57,22 @@ public class EditActions {
         }
 
         return editMenu;
+    }
+
+
+    /** 
+    * <p>
+    * Create a tool bar containing the list of edit actions.
+    * </p>
+    * 
+    * @return The edit tool bar element.
+    */
+    public JToolBar createToolBar(){
+        JToolBar editTool = new JToolBar();
+        for(Action tool: tools){
+            editTool.add(new JMenuItem(tool));
+        }
+        return editTool;
     }
 
     /**

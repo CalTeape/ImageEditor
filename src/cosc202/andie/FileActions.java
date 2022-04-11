@@ -26,6 +26,7 @@ public class FileActions {
     
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
+    protected ArrayList<Action> tools;
 
     /**
      * <p>
@@ -34,10 +35,14 @@ public class FileActions {
      */
     public FileActions() {
         actions = new ArrayList<Action>();
+        tools = new ArrayList<Action>();
         actions.add(new FileOpenAction("Open", null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
         actions.add(new FileSaveAction("Save", null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
         actions.add(new FileSaveAsAction("Save As", null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileExitAction("Exit", null, "Exit the program", Integer.valueOf(0)));
+        actions.add(new ExportAction("Export", null, "Export the current image", Integer.valueOf(KeyEvent.VK_E)));
+        tools.add(new FileSaveAction("", new ImageIcon("./src/imageIcons/saveIcon.png"), "Save", Integer.valueOf(KeyEvent.VK_S)));
+        tools.add(new FileOpenAction("", new ImageIcon("./src/imageIcons/open.png"), "Open a file", Integer.valueOf(KeyEvent.VK_O)));
     }
 
     /**
@@ -56,6 +61,22 @@ public class FileActions {
 
         return fileMenu;
     }
+
+    /** 
+    * <p>
+    * Create a tool bar containing the list of file actions.
+    * </p>
+    * 
+    * @return The file tool bar element.
+    */
+    public JToolBar createToolBar(){
+        JToolBar fileTool = new JToolBar();
+        for(Action tool: tools){
+            fileTool.add(new JMenuItem(tool));
+        }
+        return fileTool;
+    }
+
 
     /**
      * <p>
@@ -247,5 +268,45 @@ public class FileActions {
         }
 
     }
+
+    public class ExportAction extends ImageAction {
+   
+        /**
+         * <p>
+         * Create a new file-save-as action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        ExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+           super(name, icon, desc, mnemonic);
+        }
+     
+         /**
+         * <p>
+         * Callback for when the export action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the ExportAction is triggered.
+         * It prompts the user to enter a filename and saves the current image to it.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+           String imageFilename = JOptionPane.showInputDialog("Please enter a file name");
+           try {
+              target.getImage().export(imageFilename);
+           } catch (Exception ex) {
+              System.out.println("exception");
+              System.exit(1);
+           }
+        }
+        
+     }
 
 }
