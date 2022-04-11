@@ -26,6 +26,7 @@ public class TransformsActions {
 
    /** A list of actions for the Transforms menu. */
    protected ArrayList<Action> actions;
+   protected ArrayList<Action> tools;
 
    /**
     * <p>
@@ -34,6 +35,7 @@ public class TransformsActions {
     */
    public TransformsActions() {
       actions = new ArrayList<Action>();
+      tools = new ArrayList<Action>();
       actions.add(new RotateAntiClockwiseAction("Rotate Left", null, "Rotate 90 degrees Anticlockwise",
             Integer.valueOf(KeyEvent.VK_F1)));
       actions.add(new RotateClockwiseAction("Rotate Right", null, "Rotate 90 degrees Clockwise",
@@ -43,8 +45,18 @@ public class TransformsActions {
             .add(new InvertVerticalAction("Invert the Image Vertically", null, "Invert the image on the y axis", null));
       actions.add(
             new InvertHorizontalAction("Invert Image Horizontally", null, "Invert the image along the x axis", null));
+      tools.add(new RotateAntiClockwiseAction("", new ImageIcon("./src/imageIcons/rotateLeft.png"), "Rotate 90 degrees Anticlockwise", Integer.valueOf(KeyEvent.VK_F1)));
+      tools.add(new RotateClockwiseAction("", new ImageIcon("./src/imageIcons/rotateRight.png"), "Rotate 90 degrees Clockwise", Integer.valueOf(KeyEvent.VK_F1)));
    }
 
+
+     /**
+     * <p>
+     * Create a menu contianing the list of transform actions.
+     * </p>
+     * 
+     * @return The transform menu UI element.
+     */
    public JMenu createMenu() {
       JMenu fileMenu = new JMenu("Transforms");
 
@@ -54,6 +66,22 @@ public class TransformsActions {
 
       return fileMenu;
    }
+
+   /** 
+    * <p>
+    * Create a tool bar containing the list of tansform actions.
+    * </p>
+    * 
+    * @return The transform tool bar element.
+    */
+   public JToolBar createToolBar(){
+      JToolBar transformTool = new JToolBar();
+      for(Action tool: tools){
+          transformTool.add(new JMenuItem(tool));
+      }
+      return transformTool;
+  }
+
 
    public class ResizeAction extends ImageAction {
 

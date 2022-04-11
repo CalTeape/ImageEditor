@@ -27,6 +27,7 @@ public class ViewActions {
      * A list of actions for the View menu.
      */
     protected ArrayList<Action> actions;
+    protected ArrayList<Action> tools;
 
     /**
      * <p>
@@ -35,9 +36,12 @@ public class ViewActions {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
+        tools = new ArrayList<Action>();
         actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
         actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
+        tools.add(new ZoomInAction("", new ImageIcon("./src/imageIcons/zoom.jpg"), "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
+        tools.add(new ZoomOutAction("", new ImageIcon("./src/imageIcons/zoomOut.png"), "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
     }
 
     /**
@@ -57,6 +61,21 @@ public class ViewActions {
         return viewMenu;
     }
 
+    /** 
+    * <p>
+    * Create a tool bar containing the list of View actions.
+    * </p>
+    * 
+    * @return The view tool bar element.
+    */
+    public JToolBar createToolBar(){
+        JToolBar viewTool = new JToolBar();
+        for(Action tool: tools){
+            viewTool.add(new JMenuItem(tool));
+        }
+        return viewTool;
+    }
+    
     /**
      * <p>
      * Action to zoom in on an image.

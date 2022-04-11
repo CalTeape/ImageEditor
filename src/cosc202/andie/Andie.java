@@ -86,6 +86,17 @@ public class Andie {
 
         TransformsActions transformsActions = new TransformsActions();
         menuBar.add(transformsActions.createMenu());
+
+        // Create the tool bar, which consists of sub toolbars for each action class
+        JToolBar TB = new JToolBar();
+        TB.add(fileActions.createToolBar());
+        TB.add(viewActions.createToolBar());
+        TB.add(editActions.createToolBar());
+        TB.add(filterActions.createToolBar());
+        TB.add(colourActions.createToolBar());
+        TB.add(transformsActions.createToolBar());
+
+        frame.add(TB, BorderLayout.NORTH);
         
         frame.setJMenuBar(menuBar);
         frame.pack();

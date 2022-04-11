@@ -27,6 +27,7 @@ public class ColourActions {
     
     /** A list of actions for the Colour menu. */
     protected ArrayList<Action> actions;
+    protected ArrayList<Action> tools;
 
     /**
      * <p>
@@ -35,8 +36,10 @@ public class ColourActions {
      */
     public ColourActions() {
         actions = new ArrayList<Action>();
+        tools = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
         actions.add(new AdjustBrightnessAndContrastAction("Brightness & Contrast", null, "Adjust the brightness and/or contrast", null));
+        tools.add(new AdjustBrightnessAndContrastAction("", new ImageIcon("./src/imageIcons/brightness.png"), "Adjust the brightness and/or contrast", null));
     }
 
     /**
@@ -54,6 +57,21 @@ public class ColourActions {
         }
 
         return fileMenu;
+    }
+
+    /** 
+    * <p>
+    * Create a tool bar containing the list of Colour actions.
+    * </p>
+    * 
+    * @return The colour tool bar element.
+    */
+    public JToolBar createToolBar(){
+        JToolBar colourTool = new JToolBar();
+        for(Action tool: tools){
+            colourTool.add(new JMenuItem(tool));
+        }
+        return colourTool;
     }
 
     /**

@@ -26,6 +26,7 @@ public class FilterActions {
    
    /** A list of actions for the Filter menu. */
    protected ArrayList<Action> actions;
+   protected ArrayList<Action> tools;
 
    /**
     * <p>
@@ -34,10 +35,13 @@ public class FilterActions {
     */
    public FilterActions() {
       actions = new ArrayList<Action>();
+      tools = new ArrayList<Action>();
       actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
       actions.add(new SoftBlurAction("Soft Blur", null, "Apply a soft blur", Integer.valueOf(KeyEvent.VK_M)));
       actions.add(new SharpenFilterAction("Sharpen", null, "Sharpen the image", Integer.valueOf(KeyEvent.VK_M)));
       actions.add(new GaussianBlurAction("Gaussian Blur", null, "Apply a Gaussian blur", Integer.valueOf(KeyEvent.VK_M)));
+      tools.add(new SoftBlurAction("", new ImageIcon("./src/imageIcons/blur.png"), "Apply a soft blur", Integer.valueOf(KeyEvent.VK_M)));
+      tools.add(new SharpenFilterAction("", new ImageIcon("./src/imageIcons/sharpen.jpg"), "Sharpen the image", Integer.valueOf(KeyEvent.VK_M)));
    }
 
    /**
@@ -57,6 +61,20 @@ public class FilterActions {
       return fileMenu;
    }
 
+   /** 
+    * <p>
+    * Create a tool bar containing the list of filter actions.
+    * </p>
+    * 
+    * @return The filter tool bar element.
+    */
+   public JToolBar createToolBar(){
+      JToolBar filterTool = new JToolBar();
+      for(Action tool: tools){
+          filterTool.add(new JMenuItem(tool));
+      }
+      return filterTool;
+  }
    /**
     * <p>
     * Action to blur an image with a mean filter.
