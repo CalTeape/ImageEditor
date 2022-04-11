@@ -37,9 +37,9 @@ public class ViewActions {
     public ViewActions() {
         actions = new ArrayList<Action>();
         tools = new ArrayList<Action>();
-        actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_D)));
         tools.add(new ZoomInAction("", new ImageIcon("./src/imageIcons/zoom.jpg"), "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
         tools.add(new ZoomOutAction("", new ImageIcon("./src/imageIcons/zoomOut.png"), "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
     }

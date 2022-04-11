@@ -36,11 +36,11 @@ public class FileActions {
     public FileActions() {
         actions = new ArrayList<Action>();
         tools = new ArrayList<Action>();
-        actions.add(new FileOpenAction("Open", null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
+        actions.add(new FileOpenAction("Open", null, "Open a file", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileSaveAction("Save", null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new FileSaveAsAction("Save As", null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new FileSaveAsAction("Save As", null, "Save a copy", Integer.valueOf(KeyEvent.VK_D)));
         actions.add(new FileExitAction("Exit", null, "Exit the program", Integer.valueOf(0)));
-        actions.add(new ExportAction("Export", null, "Export the current image", Integer.valueOf(KeyEvent.VK_E)));
+        actions.add(new ExportAction("Export", null, "Export the current image", Integer.valueOf(KeyEvent.VK_F)));
         tools.add(new FileSaveAction("", new ImageIcon("./src/imageIcons/saveIcon.png"), "Save", Integer.valueOf(KeyEvent.VK_S)));
         tools.add(new FileOpenAction("", new ImageIcon("./src/imageIcons/open.png"), "Open a file", Integer.valueOf(KeyEvent.VK_O)));
     }
