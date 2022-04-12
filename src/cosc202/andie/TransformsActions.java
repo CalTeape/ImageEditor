@@ -36,15 +36,11 @@ public class TransformsActions {
    public TransformsActions() {
       actions = new ArrayList<Action>();
       tools = new ArrayList<Action>();
-      actions.add(new RotateAntiClockwiseAction("Rotate Left", null, "Rotate 90 degrees Anticlockwise",
-            Integer.valueOf(KeyEvent.VK_F1)));
-      actions.add(new RotateClockwiseAction("Rotate Right", null, "Rotate 90 degrees Clockwise",
-            Integer.valueOf(KeyEvent.VK_F2)));
-      actions.add(new ResizeAction("Resize the image", null, "change the image size in Pixels", null));
-      actions
-            .add(new InvertVerticalAction("Invert the Image Vertically", null, "Invert the image on the y axis", null));
-      actions.add(
-            new InvertHorizontalAction("Invert Image Horizontally", null, "Invert the image along the x axis", null));
+      actions.add(new RotateAntiClockwiseAction("Rotate Left", null, "Rotate 90 degrees Anticlockwise",Integer.valueOf(KeyEvent.VK_A)));
+      actions.add(new RotateClockwiseAction("Rotate Right", null, "Rotate 90 degrees Clockwise",Integer.valueOf(KeyEvent.VK_S)));
+      actions.add(new ResizeAction("Resize the image", null, "change the image size in Pixels", Integer.valueOf(KeyEvent.VK_D)));
+      actions.add(new InvertVerticalAction("Invert the Image Vertically", null, "Invert the image on the y axis", Integer.valueOf(KeyEvent.VK_F)));
+      actions.add(new InvertHorizontalAction("Invert Image Horizontally", null, "Invert the image along the x axis", Integer.valueOf(KeyEvent.VK_G)));
       tools.add(new RotateAntiClockwiseAction("", new ImageIcon("./src/imageIcons/rotateLeft.png"), "Rotate 90 degrees Anticlockwise", Integer.valueOf(KeyEvent.VK_F1)));
       tools.add(new RotateClockwiseAction("", new ImageIcon("./src/imageIcons/rotateRight.png"), "Rotate 90 degrees Clockwise", Integer.valueOf(KeyEvent.VK_F1)));
    }

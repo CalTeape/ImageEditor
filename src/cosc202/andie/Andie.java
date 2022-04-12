@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.io.*;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.imageio.*;
 
@@ -66,26 +67,38 @@ public class Andie {
 
         // File menus are pretty standard, so things that usually go in File menus go here.
         FileActions fileActions = new FileActions();
-        menuBar.add(fileActions.createMenu());
+        JMenuItem fActions = fileActions.createMenu();
+        fActions.setMnemonic(KeyEvent.VK_Q);
+        menuBar.add(fActions);
 
         // Likewise Edit menus are very common, so should be clear what might go here.
         EditActions editActions = new EditActions();
-        menuBar.add(editActions.createMenu());
+        JMenuItem eActions = editActions.createMenu();
+        eActions.setMnemonic(KeyEvent.VK_W);
+        menuBar.add(eActions);
 
         // View actions control how the image is displayed, but do not alter its actual content
         ViewActions viewActions = new ViewActions();
-        menuBar.add(viewActions.createMenu());
+        JMenuItem vActions = viewActions.createMenu();
+        vActions.setMnemonic(KeyEvent.VK_E);
+        menuBar.add(vActions);
 
         // Filters apply a per-pixel operation to the image, generally based on a local window
         FilterActions filterActions = new FilterActions();
-        menuBar.add(filterActions.createMenu());
+        JMenuItem filtActions = filterActions.createMenu();
+        filtActions.setMnemonic(KeyEvent.VK_R);
+        menuBar.add(filtActions);
 
         // Actions that affect the representation of colour in the image
         ColourActions colourActions = new ColourActions();
-        menuBar.add(colourActions.createMenu());
+        JMenuItem cActions = colourActions.createMenu();
+        cActions.setMnemonic(KeyEvent.VK_T);
+        menuBar.add(cActions);
 
         TransformsActions transformsActions = new TransformsActions();
-        menuBar.add(transformsActions.createMenu());
+        JMenuItem tActions = transformsActions.createMenu();
+        tActions.setMnemonic(KeyEvent.VK_Y);
+        menuBar.add(tActions);
 
         // Create the tool bar, which consists of sub toolbars for each action class
         JToolBar TB = new JToolBar();

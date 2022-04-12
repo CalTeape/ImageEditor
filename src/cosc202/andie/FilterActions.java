@@ -36,10 +36,11 @@ public class FilterActions {
    public FilterActions() {
       actions = new ArrayList<Action>();
       tools = new ArrayList<Action>();
-      actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
-      actions.add(new SoftBlurAction("Soft Blur", null, "Apply a soft blur", Integer.valueOf(KeyEvent.VK_M)));
-      actions.add(new SharpenFilterAction("Sharpen", null, "Sharpen the image", Integer.valueOf(KeyEvent.VK_M)));
-      actions.add(new GaussianBlurAction("Gaussian Blur", null, "Apply a Gaussian blur", Integer.valueOf(KeyEvent.VK_M)));
+      actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_A)));
+      actions.add(new MedianFilterAction("Median filter:", null, "Apply a median filter", Integer.valueOf(KeyEvent.VK_S)));
+      actions.add(new SoftBlurAction("Soft Blur", null, "Apply a soft blur", Integer.valueOf(KeyEvent.VK_D)));
+      actions.add(new SharpenFilterAction("Sharpen", null, "Sharpen the image", Integer.valueOf(KeyEvent.VK_F)));
+      actions.add(new GaussianBlurAction("Gaussian Blur", null, "Apply a Gaussian blur", Integer.valueOf(KeyEvent.VK_G)));
       tools.add(new SoftBlurAction("", new ImageIcon("./src/imageIcons/blur.png"), "Apply a soft blur", Integer.valueOf(KeyEvent.VK_M)));
       tools.add(new SharpenFilterAction("", new ImageIcon("./src/imageIcons/sharpen.jpg"), "Sharpen the image", Integer.valueOf(KeyEvent.VK_M)));
    }
@@ -134,7 +135,47 @@ public class FilterActions {
       }
    
    }
-   
+
+   /**
+     * Action to apply a median filter to the image
+     * @see MedianFilter
+     */
+    public class MedianFilterAction extends ImageAction {
+
+      /**
+       * Creating a new Filter action for the median filter
+       * @param name Name of the action
+       * @param icon Icon to represent the action
+       * @param desc Description of the filter
+       * @param mnemonic Mnemonic hotkey to use the filter
+       */
+      MedianFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+          super(name, icon, desc, mnemonic);
+      }
+
+      public void actionPerformed(ActionEvent e) {
+
+         // Determining the radius for the filter
+          int radius = 1;
+
+          // Pop up dialog to determine the radius
+          SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
+          JSpinner radiusSpinner = new JSpinner(radiusModel);
+          int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+          // Checking return value
+          if (option == JOptionPane.CANCEL_OPTION) {
+              return;
+          } else if (option == JOptionPane.OK_OPTION) {
+              radius = radiusModel.getNumber().intValue();
+          }
+
+          // Applying the filter based on the given radius
+          target.getImage().apply(new MedianFilter(radius));
+          target.repaint();
+          target.getParent().revalidate();
+      }
+  }
 
    /**
     * <p>

@@ -36,8 +36,8 @@ public class EditActions {
     public EditActions() {
         actions = new ArrayList<Action>();
         tools = new ArrayList<Action>();
-        actions.add(new UndoAction("Undo", null, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
-        actions.add(new RedoAction("Redo", null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
+        actions.add(new UndoAction("Undo", null, "Undo", Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new RedoAction("Redo", null, "Redo", Integer.valueOf(KeyEvent.VK_S)));
         tools.add(new UndoAction("", new ImageIcon("./src/imageIcons/undo.jpg"), "Undo", Integer.valueOf(KeyEvent.VK_Z)));
         tools.add(new RedoAction("", new ImageIcon("./src/imageIcons/redo.jpg"), "Redo", Integer.valueOf(KeyEvent.VK_Y)));
     }
