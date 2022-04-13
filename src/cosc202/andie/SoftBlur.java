@@ -1,77 +1,36 @@
 package cosc202.andie;
 
 import java.awt.image.*;
-import java.util.*;
 
 /**
  * <p>
- * ImageOperation to apply a Mean (simple blur) filter.
+ * ImageOperation to apply a soft blur filter.
  * </p>
  * 
  * <p>
- * A Mean filter blurs an image by replacing each pixel by the average of the
+ * A soft blur filter blurs an image by replacing each pixel by the average of the
  * pixels in a surrounding neighbourhood, and can be implemented by a convoloution.
  * </p>
  * 
- * <p> 
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
- * </p>
  * 
  * @see java.awt.image.ConvolveOp
- * @author Steven Mills
+ * @author Callum Teape
  * @version 1.0
  */
 public class SoftBlur implements ImageOperation, java.io.Serializable {
     
     /**
-     * The size of filter to apply. A radius of 1 is a 3x3 filter, a radius of 2 a 5x5 filter, and so forth.
-     */
-    private int radius;
-
-    /**
      * <p>
-     * Construct a Mean filter with the given size.
+     * Apply a soft blur to an image.
      * </p>
      * 
      * <p>
-     * The size of the filter is the 'radius' of the convolution kernel used.
-     * A size of 1 is a 3x3 filter, 2 is 5x5, and so on.
-     * Larger filters give a stronger blurring effect.
+     * As with many filters, the soft blur filter is implemented via convolution.
+     * This was implemented with the kernel specified in the lab book, meaning that the size
+     * of the array was hardcoded as a 3x3.
      * </p>
      * 
-     * @param radius The radius of the newly constructed MeanFilter
-     */
-    SoftBlur(int radius) {
-        this.radius = radius;    
-    }
-
-    /**
-     * <p>
-     * Construct a Mean filter with the default size.
-     * </p
-     * >
-     * <p>
-     * By default, a Mean filter has radius 1.
-     * </p>
-     * 
-     * @see MeanFilter(int)
-     */
-    SoftBlur() {
-        this(1);
-    }
-
-    /**
-     * <p>
-     * Apply a Mean filter to an image.
-     * </p>
-     * 
-     * <p>
-     * As with many filters, the Mean filter is implemented via convolution.
-     * The size of the convolution kernel is specified by the {@link radius}.  
-     * Larger radii lead to stronger blurring.
-     * </p>
-     * 
-     * @param input The image to apply the Mean filter to.
+     * @param input The image to apply the soft blur filter to.
      * @return The resulting (blurred)) image.
      */
     public BufferedImage apply(BufferedImage input) {

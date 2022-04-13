@@ -12,14 +12,13 @@ import javax.swing.*;
  * <p>
  * The Filter menu contains actions that update each pixel in an image based on
  * some small local neighbourhood. 
- * This includes a mean filter (a simple blur) in the sample code, but more operations will need to be added.
  * </p>
  * 
  * <p> 
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills, Callum Teape, Jarod Peacock
  * @version 1.0
  */
 public class FilterActions {
@@ -112,7 +111,7 @@ public class FilterActions {
        * @param e The event triggering this callback.
        */
       public void actionPerformed(ActionEvent e) {
-      
+      try{
          // Determine the radius - ask the user.
          int radius = 1;
       
@@ -132,6 +131,9 @@ public class FilterActions {
          target.getImage().apply(new MeanFilter(radius));
          target.repaint();
          target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before blurring", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
       }
    
    }
@@ -154,6 +156,7 @@ public class FilterActions {
       }
 
       public void actionPerformed(ActionEvent e) {
+         try{
 
          // Determining the radius for the filter
           int radius = 1;
@@ -174,6 +177,9 @@ public class FilterActions {
           target.getImage().apply(new MedianFilter(radius));
           target.repaint();
           target.getParent().revalidate();
+         }catch(NullPointerException E){
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before blurring", "alert!", JOptionPane.ERROR_MESSAGE);
+         }
       }
   }
 
@@ -204,10 +210,14 @@ public class FilterActions {
       }
          
       public void actionPerformed(ActionEvent e) { 
+         try{
       // Create and apply the filter 
          target.getImage().apply(new SoftBlur()); 
          target.repaint(); 
          target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before blurring", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
       } 
       
    }
@@ -239,10 +249,14 @@ public class FilterActions {
       }
          
       public void actionPerformed(ActionEvent e) { 
+         try{
       // Create and apply the filter 
          target.getImage().apply(new SharpenFilter()); 
          target.repaint(); 
          target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before sharpening", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
       } 
       
    }
@@ -289,7 +303,7 @@ public class FilterActions {
        */
          
       public void actionPerformed(ActionEvent e) { 
-      
+      try{
       // Determine the radius - ask the user.
          int radius = 1;
       
@@ -310,6 +324,9 @@ public class FilterActions {
          target.getImage().apply(new GaussianBlurFilter(radius)); 
          target.repaint(); 
          target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before blurring", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
       } 
       
    }
