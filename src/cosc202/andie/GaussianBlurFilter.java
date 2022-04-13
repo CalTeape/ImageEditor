@@ -1,8 +1,6 @@
 package cosc202.andie;
 
 import java.awt.image.*;
-import java.util.*;
-import java.lang.*;
 
 /**
  * <p>
@@ -19,7 +17,7 @@ import java.lang.*;
  * </p>
  * 
  * @see java.awt.image.ConvolveOp
- * @author Steven Mills
+ * @author Callum Teape
  * @version 1.0
  */
 public class GaussianBlurFilter implements ImageOperation, java.io.Serializable {

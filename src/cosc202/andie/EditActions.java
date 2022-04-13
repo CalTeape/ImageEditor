@@ -111,9 +111,13 @@ public class EditActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            try{
             target.getImage().undo();
             target.repaint();
             target.getParent().revalidate();
+        }catch(EmptyStackException E){
+            JOptionPane.showMessageDialog(null, "Error: no operations to undo!", "alert!", JOptionPane.ERROR_MESSAGE);
+        }
         }
     }
 
@@ -154,9 +158,13 @@ public class EditActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            try{
             target.getImage().redo();
             target.repaint();
             target.getParent().revalidate();
+        }catch(EmptyStackException E){
+            JOptionPane.showMessageDialog(null, "Error: no operations to redo!", "alert!", JOptionPane.ERROR_MESSAGE);
+        }
         }
     }
 
