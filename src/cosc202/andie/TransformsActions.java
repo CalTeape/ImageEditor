@@ -96,6 +96,7 @@ public class TransformsActions {
       }
 
       public void actionPerformed(ActionEvent e) {
+         try{
 
          int height = 1;
          int width = 1;
@@ -126,6 +127,9 @@ public class TransformsActions {
          target.getImage().apply(new ResizeImage(height, width));
          target.repaint();
          target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before resizing", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
       }
 
    }
@@ -148,9 +152,13 @@ public class TransformsActions {
 
       // initiates the action on RotateImage
       public void actionPerformed(ActionEvent e) {
+         try{
          target.getImage().apply(new RotateImage(false));
          target.repaint();
          target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before rotating", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
       }
    }
 
@@ -171,9 +179,13 @@ public class TransformsActions {
       }
 
       public void actionPerformed(ActionEvent e) {
+         try{
          target.getImage().apply(new RotateImage(true));
          target.repaint();
          target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before rotating", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
       }
    }
 
@@ -194,9 +206,13 @@ public class TransformsActions {
       }
 
       public void actionPerformed(ActionEvent e) {
+         try{
          target.getImage().apply(new InvertImage(true));
          target.repaint();
          target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before inverting", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
       }
    }
 
@@ -217,9 +233,13 @@ public class TransformsActions {
       }
 
       public void actionPerformed(ActionEvent e) {
+         try{
          target.getImage().apply(new InvertImage(false));
          target.repaint();
          target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before inverting", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
       }
    }
 }

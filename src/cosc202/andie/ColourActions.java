@@ -110,9 +110,13 @@ public class ColourActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            try{
             target.getImage().apply(new ConvertToGrey());
             target.repaint();
             target.getParent().revalidate();
+        }catch(NullPointerException E){
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before greyscaling", "alert!", JOptionPane.ERROR_MESSAGE);
+         }
         }
 
     }
@@ -153,6 +157,7 @@ public class ColourActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            try{
             int brightness = 0;
             int contrast = 0;
 
@@ -178,6 +183,9 @@ public class ColourActions {
             target.getImage().apply(new AdjustBrightnessAndContrast(brightness, contrast));
             target.repaint();
             target.getParent().revalidate();
+        }catch(NullPointerException E){
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before adjusting brightness and contrast", "alert!", JOptionPane.ERROR_MESSAGE);
+         }
         }
 
     }

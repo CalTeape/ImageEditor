@@ -63,8 +63,6 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
 
     public int getMedian (int[] values) {
         Arrays.sort(values);
-        System.out.println(values);
-        System.out.println(values[values.length/2]);
         return values[values.length / 2];
     }
 

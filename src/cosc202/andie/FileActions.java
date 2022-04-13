@@ -122,7 +122,7 @@ public class FileActions {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().open(imageFilepath);
                 } catch (Exception ex) {
-                    System.exit(1);
+                    JOptionPane.showMessageDialog(null, "Error: this is not a valid image. Please try again.", "alert!", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
@@ -171,7 +171,7 @@ public class FileActions {
             try {
                 target.getImage().save();           
             } catch (Exception ex) {
-                System.exit(1);
+                JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before saving", "alert!", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -221,7 +221,7 @@ public class FileActions {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().saveAs(imageFilepath);
                 } catch (Exception ex) {
-                    System.exit(1);
+                    JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before saving", "alert!", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -273,7 +273,7 @@ public class FileActions {
    
         /**
          * <p>
-         * Create a new file-save-as action.
+         * Create a new file-export action.
          * </p>
          * 
          * @param name The name of the action (ignored if null).
@@ -302,8 +302,7 @@ public class FileActions {
            try {
               target.getImage().export(imageFilename);
            } catch (Exception ex) {
-              System.out.println("exception");
-              System.exit(1);
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before exporting", "alert!", JOptionPane.ERROR_MESSAGE);
            }
         }
         
