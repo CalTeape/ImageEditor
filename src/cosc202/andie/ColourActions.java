@@ -25,21 +25,21 @@ import javax.swing.*;
  */
 public class ColourActions {
     
-    /** A list of actions for the Colour menu. */
+    /** Lists of Colour actions for the Colour menu and toolbar. */
     protected ArrayList<Action> actions;
     protected ArrayList<Action> tools;
 
     /**
      * <p>
-     * Create a set of Colour menu actions.
+     * Create a set of Colour menu and toolbar actions.
      * </p>
      */
     public ColourActions() {
         actions = new ArrayList<Action>();
         tools = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new AdjustBrightnessAndContrastAction("Brightness & Contrast", null, "Adjust the brightness and/or contrast", Integer.valueOf(KeyEvent.VK_S)));
-        tools.add(new AdjustBrightnessAndContrastAction("", new ImageIcon("./src/imageIcons/brightness.png"), "Adjust the brightness and/or contrast", null));
+        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new BrightnessAndContrastAction("Brightness & Contrast", null, "Adjust the brightness and/or contrast", Integer.valueOf(KeyEvent.VK_G)));
+        tools.add(new BrightnessAndContrastAction("", new ImageIcon("./src/imageIcons/brightness.png"), "Adjust the brightness and/or contrast", null));
     }
 
     /**
@@ -59,20 +59,7 @@ public class ColourActions {
         return fileMenu;
     }
 
-    /** 
-    * <p>
-    * Create a tool bar containing the list of Colour actions.
-    * </p>
-    * 
-    * @return The colour tool bar element.
-    */
-    public JToolBar createToolBar(){
-        JToolBar colourTool = new JToolBar();
-        for(Action tool: tools){
-            colourTool.add(new JMenuItem(tool));
-        }
-        return colourTool;
-    }
+
 
     /**
      * <p>
@@ -121,18 +108,19 @@ public class ColourActions {
 
     }
 
+
     /**
      * <p>
      * Action to adjust the brightness and contrast of an image.
      * </p>
      * 
-     * @see AdjustBrightnessAndContrast
+     * @see BrightnessAndContrast
      */
-    public class AdjustBrightnessAndContrastAction extends ImageAction {
+    public class BrightnessAndContrastAction extends ImageAction {
 
         /**
          * <p>
-         * Create a new adjust-brightness-and-contrast action.
+         * Create a new brightness-and-contrast action.
          * </p>
          * 
          * @param name The name of the action (ignored if null).
@@ -140,17 +128,17 @@ public class ColourActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        AdjustBrightnessAndContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        BrightnessAndContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
         /**
          * <p>
-         * Callback for when the adjust-brightness-and-contrast action is triggered.
+         * Callback for when the brightness-and-contrast action is triggered.
          * </p>
          * 
          * <p>
-         * This method is called whenever the AdjustBrightnessAndContrastAction is triggered.
+         * This method is called whenever the BrightnessAndContrastAction is triggered.
          * It adjusts the brightness of the image.
          * </p>
          * 
@@ -161,18 +149,19 @@ public class ColourActions {
             int brightness = 0;
             int contrast = 0;
 
+            // An instance of JPanel with two seperate sliders to determine new values of 'brightness' and 'contrast'.
             JPanel optionPanel = new JPanel(new GridLayout(0, 1));
             JSlider brightnessSlider = new JSlider(-100, 100, brightness);
             JSlider contrastSlider = new JSlider(-100, 100, contrast);
 
+            // Adds sliders and respective labels to previously created JPanel.
             optionPanel.add(new JLabel("Brightness:"));
             optionPanel.add(brightnessSlider);
             optionPanel.add(new JLabel("Contrast:"));
             optionPanel.add(contrastSlider);
-
             
+            // Pop-up dialog box to ask user for the new 'brightness' and 'contrast' values.
             int selectedOption = JOptionPane.showOptionDialog(null, optionPanel, "Adjust Brightness and Contrast", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            
             if(selectedOption == JOptionPane.CANCEL_OPTION){
                 return;
             }else if(selectedOption == JOptionPane.OK_OPTION){
@@ -180,7 +169,8 @@ public class ColourActions {
                 contrast = contrastSlider.getValue();
             }
 
-            target.getImage().apply(new AdjustBrightnessAndContrast(brightness, contrast));
+            // Create and apply the adjustment(s).
+            target.getImage().apply(new BrightnessAndContrast(brightness, contrast));
             target.repaint();
             target.getParent().revalidate();
         }catch(NullPointerException E){
