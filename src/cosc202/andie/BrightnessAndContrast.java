@@ -7,10 +7,14 @@ import java.awt.image.*;
  * ImageOperation to adjust the brightness and contrast of an image.
  * </p>
  * 
- * @author Steven Mills
+ * </p>
+ * The increase/decrease in brightness and/or contrast uses a formula on every pixel
+ * to alter the red, green and blue values of each pixel.
+ * </p>
+ * @author Jack Searle
  * @version 1.0
  */
-public class AdjustBrightnessAndContrast implements ImageOperation, java.io.Serializable {
+public class BrightnessAndContrast implements ImageOperation, java.io.Serializable {
 
     /**
      * The brightness and contrast values to be applied to the target image.
@@ -20,13 +24,13 @@ public class AdjustBrightnessAndContrast implements ImageOperation, java.io.Seri
 
     /**
      * <p>
-     * Create a new AdjustBrightnessAndContrast operation.
+     * Create a new BrightnessAndContrast operation.
      * </p>
      * 
      * @param b the value of brightness to be applied.
      * @param c the value of contrast to be applied.
      */
-    AdjustBrightnessAndContrast(int b, int c) {
+    BrightnessAndContrast(int b, int c) {
         this.brightness = b;
         this.contrast = c;
     }
@@ -52,11 +56,8 @@ public class AdjustBrightnessAndContrast implements ImageOperation, java.io.Seri
                 int r = (argb & 0x00FF0000) >> 16;
                 int g = (argb & 0x0000FF00) >> 8;
                 int b = (argb & 0x000000FF);
-                
-                
 
                 int newR = (int) Math.round(((1 + ((double)contrast)/100) * (r - 127.5)) + (127.5 * (1 + ((double)brightness)/100)));
-                //System.out.println(r + " " + newR);
                 if(newR > 255){newR = 255;}
                 if(newR < 0){newR = 0;}
                 int newG = (int) Math.round(((1 + ((double)contrast)/100) * (g - 127.5)) + (127.5 * (1 + ((double)brightness)/100)));
@@ -65,7 +66,6 @@ public class AdjustBrightnessAndContrast implements ImageOperation, java.io.Seri
                 int newB = (int) Math.round(((1 + ((double)contrast)/100) * (b - 127.5)) + (127.5 * (1 + ((double)brightness)/100)));
                 if(newB > 255){newB = 255;}
                 if(newB < 0){newB = 0;}
-
 
                 argb = (a << 24) | (newR << 16) | (newG << 8) | newB;
                 input.setRGB(x, y, argb);
