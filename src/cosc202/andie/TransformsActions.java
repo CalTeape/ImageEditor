@@ -42,7 +42,7 @@ public class TransformsActions {
       actions.add(new InvertVerticalAction("Invert the Image Vertically", null, "Invert the image on the y axis", Integer.valueOf(KeyEvent.VK_F)));
       actions.add(new InvertHorizontalAction("Invert Image Horizontally", null, "Invert the image along the x axis", Integer.valueOf(KeyEvent.VK_G)));
       tools.add(new RotateAntiClockwiseAction("", new ImageIcon("./src/imageIcons/rotateLeft.png"), "Rotate 90 degrees Anticlockwise", Integer.valueOf(KeyEvent.VK_F1)));
-      tools.add(new RotateClockwiseAction("", new ImageIcon("./src/imageIcons/rotateRight.png"), "Rotate 90 degrees Clockwise", Integer.valueOf(KeyEvent.VK_F1)));
+      tools.add(new RotateClockwiseAction("", new ImageIcon("./src/imageIcons/rotateRight.png"), "Rotate 90 degrees Clockwise", Integer.valueOf(KeyEvent.VK_F2)));
    }
 
 
