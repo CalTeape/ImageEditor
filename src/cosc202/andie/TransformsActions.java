@@ -119,9 +119,9 @@ public class TransformsActions {
 
          if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
             return;
-         } else if (option == JOptionPane.OK_OPTION) {
-            height = pixelHeightModel.getNumber().intValue();
-            width = pixelWidthModel.getNumber().intValue();
+         } else if (option == JOptionPane.OK_OPTION) {          
+            height = pixelWidthModel.getNumber().intValue();
+            width = pixelHeightModel.getNumber().intValue();
          }
 
          target.getImage().apply(new ResizeImage(height, width));
