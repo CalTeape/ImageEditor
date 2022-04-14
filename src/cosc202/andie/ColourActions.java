@@ -20,7 +20,7 @@ import javax.swing.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills, Jack Searle, Callum Teape
  * @version 1.0
  */
 public class ColourActions {
@@ -58,6 +58,23 @@ public class ColourActions {
 
         return fileMenu;
     }
+
+
+        /** 
+    * <p>
+    * Create a tool bar containing the list of colour actions.
+    * </p>
+    * 
+    * @return The colour tool bar element.
+    */
+    public JToolBar createToolBar(){
+        JToolBar editTool = new JToolBar();
+        for(Action tool: tools){
+            editTool.add(new JMenuItem(tool));
+        }
+        return editTool;
+    }
+
 
 
 
