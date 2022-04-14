@@ -37,8 +37,8 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         tools = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new BrightnessAndContrastAction("Brightness & Contrast", null, "Adjust the brightness and/or contrast", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new BrightnessAndContrastAction("Brightness & Contrast", null, "Adjust the brightness and/or contrast", Integer.valueOf(KeyEvent.VK_S)));
         tools.add(new BrightnessAndContrastAction("", new ImageIcon("./src/imageIcons/brightness.png"), "Adjust the brightness and/or contrast", null));
     }
 
