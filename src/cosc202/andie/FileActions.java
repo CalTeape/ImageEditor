@@ -214,7 +214,8 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showOpenDialog(target);
+            fileChooser.setDialogTitle("Export");
+            int result = fileChooser.showSaveDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
@@ -298,14 +299,19 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-           String imageFilename = JOptionPane.showInputDialog("Please enter a file name");
-           try {
-              target.getImage().export(imageFilename);
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(target);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    target.getImage().export(imageFilepath);
            } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before exporting", "alert!", JOptionPane.ERROR_MESSAGE);
            }
         }
         
      }
+
+    }
 
 }

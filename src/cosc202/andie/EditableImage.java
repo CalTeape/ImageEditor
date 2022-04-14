@@ -288,13 +288,23 @@ class EditableImage {
     *
     * @param fileName the name which the exported image is to be saved to.
     */
-    public void export(String fileName){
-        String prior = this.imageFilename.substring(0,this.imageFilename.lastIndexOf("/"));
-        String filePathName = prior + "/" + fileName + ".jpg";
-        this.imageFilename = filePathName;
+    public void export(String filePathName){
+        System.out.println(filePathName);
+        String fileName;
+        String extension;
         try{
-           String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
-           ImageIO.write(current, extension, new File(imageFilename));
+           //String extension = filePathName.substring(1+filePathName.lastIndexOf(".")).toLowerCase();
+           if(filePathName.lastIndexOf(".") == -1){
+               fileName = (filePathName + ".jpg");
+               extension = "jpg";
+            }
+               else{
+                fileName = filePathName;
+                extension = filePathName.substring(1+filePathName.lastIndexOf(".")).toLowerCase();
+               }
+           System.out.println(fileName);
+           System.out.println(extension);
+           ImageIO.write(current, extension, new File(fileName));
         }catch(Exception ex){
            System.out.println("exception");
         }
