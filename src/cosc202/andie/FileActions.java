@@ -214,7 +214,6 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Export");
             int result = fileChooser.showSaveDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
@@ -300,6 +299,7 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Export");
             int result = fileChooser.showSaveDialog(target);
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {

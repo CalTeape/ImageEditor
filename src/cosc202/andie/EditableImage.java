@@ -210,9 +210,25 @@ class EditableImage {
      * @throws Exception If something goes wrong.
      */
     public void saveAs(String imageFilename) throws Exception {
-        this.imageFilename = imageFilename;
-        this.opsFilename = imageFilename + ".ops";
-        save();
+        String fileName;
+        String extension;
+
+           if(imageFilename.lastIndexOf(".") == -1){
+               fileName = (imageFilename + ".jpg");
+               extension = "jpg";
+            }
+               else{
+                fileName = imageFilename;
+                extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
+               }
+           ImageIO.write(current, extension, new File(fileName));
+        // Write operations file
+        this.opsFilename = imageFilename + "." + extension + ".ops";
+        FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
+        ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+        objOut.writeObject(this.ops);
+        objOut.close();
+        fileOut.close();
     }
 
     /**
@@ -289,7 +305,6 @@ class EditableImage {
     * @param fileName the name which the exported image is to be saved to.
     */
     public void export(String filePathName){
-        System.out.println(filePathName);
         String fileName;
         String extension;
         try{
@@ -302,8 +317,6 @@ class EditableImage {
                 fileName = filePathName;
                 extension = filePathName.substring(1+filePathName.lastIndexOf(".")).toLowerCase();
                }
-           System.out.println(fileName);
-           System.out.println(extension);
            ImageIO.write(current, extension, new File(fileName));
         }catch(Exception ex){
            System.out.println("exception");
