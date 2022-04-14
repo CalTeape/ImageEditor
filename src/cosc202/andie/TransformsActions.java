@@ -19,7 +19,7 @@ import javax.swing.*;
  * 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Max Campbell, Callum Teape
  * @version 1.0
  */
 public class TransformsActions {

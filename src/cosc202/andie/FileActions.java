@@ -19,7 +19,7 @@ import javax.swing.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills, Callum Teape
  * @version 1.0
  */
 public class FileActions {
@@ -171,7 +171,7 @@ public class FileActions {
             try {
                 target.getImage().save();           
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before saving", "alert!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error: something went wrong saving the image. Please try again", "alert!", JOptionPane.ERROR_MESSAGE);
             }
         }
 
