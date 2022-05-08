@@ -25,6 +25,8 @@ import javax.imageio.*;
  */
 public class Andie {
 
+    public static ImagePanel imagePanel = new ImagePanel();
+
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -57,11 +59,10 @@ public class Andie {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // The main content area is an ImagePanel
-        ImagePanel imagePanel = new ImagePanel();
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
-        
+
         // Add in menus for various types of action the user may perform.
         JMenuBar menuBar = new JMenuBar();
 
@@ -116,6 +117,38 @@ public class Andie {
         frame.setVisible(true);
     }
 
+    /**
+     * <p>
+     * Method for retrieving information about the next mouse drag.
+     * </p>
+     * 
+     * <p>
+     * Retrieves and returns coordinates of mouse at the start and end of a mouse
+     * in the format of an int array (x1, y1, x2, y2).
+     * </p>
+     * 
+     * @return coordinates of mouse press and mouse release.
+     */
+    public static int[] mouseDrag(){
+        int[] dragCoordinates = new int[4];
+
+        // Mouse listener to get mouse coordinates on mouse click.
+        imagePanel.addMouseListener(new MouseAdapter(){
+            public void mousePressed(MouseEvent e){
+                System.out.println("press:\t " + e.getX() + "," + e.getY());
+                dragCoordinates[0] = e.getX();
+                dragCoordinates[1] = e.getY();
+            }
+            public void mouseReleased(MouseEvent e){
+                System.out.println("release: " + e.getX() + "," + e.getY());
+                dragCoordinates[2] = e.getX();
+                dragCoordinates[3] = e.getY();
+            }
+        });
+
+        return dragCoordinates;
+    }
+    
     /**
      * <p>
      * Main entry point to the ANDIE program.
