@@ -46,7 +46,7 @@ public class Andie {
      * @see EditActions
      * @see ViewActions
      * @see FilterActions
-     * @see ColourActions
+     * @see AdjustmentActions
      * 
      * @throws Exception if something goes wrong.
      */
@@ -90,16 +90,22 @@ public class Andie {
         filtActions.setMnemonic(KeyEvent.VK_R);
         menuBar.add(filtActions);
 
-        // Actions that affect the representation of colour in the image
-        ColourActions colourActions = new ColourActions();
-        JMenuItem cActions = colourActions.createMenu();
-        cActions.setMnemonic(KeyEvent.VK_T);
-        menuBar.add(cActions);
+        // Actions to adjust the representation of colour in the image
+        AdjustmentActions adjustmentActions = new AdjustmentActions();
+        JMenuItem aActions = adjustmentActions.createMenu();
+        aActions.setMnemonic(KeyEvent.VK_T);
+        menuBar.add(aActions);
 
+        // Actions that transform the image
         TransformsActions transformsActions = new TransformsActions();
         JMenuItem tActions = transformsActions.createMenu();
         tActions.setMnemonic(KeyEvent.VK_Y);
         menuBar.add(tActions);
+
+        // Actions that change the selected colour
+        ColourActions colourActions = new ColourActions();
+        JMenuItem cActions = colourActions.createMenu();
+        menuBar.add(cActions);
 
         // Create the tool bar, which consists of sub toolbars for each action class
         JToolBar TB = new JToolBar();
@@ -107,8 +113,9 @@ public class Andie {
         TB.add(viewActions.createToolBar());
         TB.add(editActions.createToolBar());
         TB.add(filterActions.createToolBar());
-        TB.add(colourActions.createToolBar());
+        TB.add(adjustmentActions.createToolBar());
         TB.add(transformsActions.createToolBar());
+        TB.add(colourActions.createToolBar());
 
         frame.add(TB, BorderLayout.NORTH);
         
