@@ -37,9 +37,8 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         tools = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new BrightnessAndContrastAction("Brightness & Contrast", null, "Adjust the brightness and/or contrast", Integer.valueOf(KeyEvent.VK_S)));
-        tools.add(new BrightnessAndContrastAction("", new ImageIcon("./src/imageIcons/brightness.png"), "Adjust the brightness and/or contrast", null));
+        actions.add(new ColourSelectionAction("Colour Select", null, "Select a colour", null));
+        tools.add(new ColourSelectionAction("", new ImageIcon("./src/imageIcons/brightness.png"), "Select a colour", null));
     }
 
     /**
@@ -77,19 +76,18 @@ public class ColourActions {
 
 
 
-
     /**
      * <p>
-     * Action to convert an image to greyscale.
+     * Action to select the active colour.
      * </p>
-     * 
-     * @see ConvertToGrey
      */
-    public class ConvertToGreyAction extends ImageAction {
+    public class ColourSelectionAction extends ImageAction {
+
+        Color activeColour = Color.WHITE;
 
         /**
          * <p>
-         * Create a new convert-to-grey action.
+         * Create a new colour-selection action.
          * </p>
          * 
          * @param name The name of the action (ignored if null).
@@ -97,102 +95,38 @@ public class ColourActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        ConvertToGreyAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ColourSelectionAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
         /**
          * <p>
-         * Callback for when the convert-to-grey action is triggered.
+         * Callback for when the colour-selection action is triggered.
          * </p>
          * 
          * <p>
-         * This method is called whenever the ConvertToGreyAction is triggered.
-         * It changes the image to greyscale.
+         * This method is called whenever the ColourSelectionAction is triggered.
+         * It reassigns the activeColour variable.
          * </p>
          * 
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            try{
-            target.getImage().apply(new ConvertToGrey());
-            target.repaint();
-            target.getParent().revalidate();
-        }catch(NullPointerException E){
-            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before greyscaling", "alert!", JOptionPane.ERROR_MESSAGE);
-         }
-        }
 
-    }
-
-
-    /**
-     * <p>
-     * Action to adjust the brightness and contrast of an image.
-     * </p>
-     * 
-     * @see BrightnessAndContrast
-     */
-    public class BrightnessAndContrastAction extends ImageAction {
-
-        /**
-         * <p>
-         * Create a new brightness-and-contrast action.
-         * </p>
-         * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
-         */
-        BrightnessAndContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-        /**
-         * <p>
-         * Callback for when the brightness-and-contrast action is triggered.
-         * </p>
-         * 
-         * <p>
-         * This method is called whenever the BrightnessAndContrastAction is triggered.
-         * It adjusts the brightness of the image.
-         * </p>
-         * 
-         * @param e The event triggering this callback.
-         */
-        public void actionPerformed(ActionEvent e) {
-            try{
-            int brightness = 0;
-            int contrast = 0;
-
-            // An instance of JPanel with two seperate sliders to determine new values of 'brightness' and 'contrast'.
+            // An instance of JPanel and a colour chooser.
             JPanel optionPanel = new JPanel(new GridLayout(0, 1));
-            JSlider brightnessSlider = new JSlider(-100, 100, brightness);
-            JSlider contrastSlider = new JSlider(-100, 100, contrast);
-
-            // Adds sliders and respective labels to previously created JPanel.
-            optionPanel.add(new JLabel("Brightness:"));
-            optionPanel.add(brightnessSlider);
-            optionPanel.add(new JLabel("Contrast:"));
-            optionPanel.add(contrastSlider);
+            JColorChooser colourChooser = new JColorChooser(activeColour);
+            optionPanel.add(colourChooser);
             
-            // Pop-up dialog box to ask user for the new 'brightness' and 'contrast' values.
-            int selectedOption = JOptionPane.showOptionDialog(null, optionPanel, "Adjust Brightness and Contrast", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            // Pop-up dialog box to ask user to select a colour.
+            int selectedOption = JOptionPane.showOptionDialog(null, optionPanel, "Select a colour", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if(selectedOption == JOptionPane.CANCEL_OPTION){
                 return;
             }else if(selectedOption == JOptionPane.OK_OPTION){
-                brightness = brightnessSlider.getValue();
-                contrast = contrastSlider.getValue();
+                activeColour = colourChooser.getColor();
+                System.out.println(activeColour);
             }
-
-            // Create and apply the adjustment(s).
-            target.getImage().apply(new BrightnessAndContrast(brightness, contrast));
-            target.repaint();
-            target.getParent().revalidate();
-        }catch(NullPointerException E){
-            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before adjusting brightness and contrast", "alert!", JOptionPane.ERROR_MESSAGE);
-         }
+        
         }
 
     }
