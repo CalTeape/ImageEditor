@@ -39,6 +39,16 @@ public class FilterActions {
       actions.add(new MedianFilterAction("Median filter:", null, "Apply a median filter", Integer.valueOf(KeyEvent.VK_S)));
       actions.add(new SoftBlurAction("Soft Blur", null, "Apply a soft blur", Integer.valueOf(KeyEvent.VK_D)));
       actions.add(new SharpenFilterAction("Sharpen", null, "Sharpen the image", Integer.valueOf(KeyEvent.VK_F)));
+      actions.add(new EmbossLeftRightAction("Emboss (left -> right", null, "Emboss the image", null));
+      actions.add(new EmbossLeftDownDiagonalAction("Emboss (top left -> bottom right)", null, "Emboss the image", null));
+      actions.add(new EmbossUpDownAction("Emboss (up -> down)", null, "Emboss the image", null));
+      actions.add(new EmbossRightDownDiagonalAction("Emboss (top right -> bottom left)", null, "Emboss the image", null));
+      actions.add(new EmbossRightLeftAction("Emboss (right -> left)", null, "Emboss the image", null));
+      actions.add(new EmbossRightUpDiagonalAction("Emboss (bottom right -> top left)", null, "Emboss the image", null));
+      actions.add(new EmbossDownUpAction("Emboss (down -> up)", null, "Emboss the image", null));
+      actions.add(new EmbossLeftUpDiagonalAction("Emboss (bottom left -> top right)", null, "Emboss the image", null));
+      actions.add(new SobelLeftRightAction("Sobel Filter (left -> right)", null, "Apply a sobel filter", null));
+      actions.add(new SobelUpDownAction("Sobel Filter (up -> down)", null, "Apply a sobel filter", null));
       actions.add(new GaussianBlurAction("Gaussian Blur", null, "Apply a Gaussian blur", Integer.valueOf(KeyEvent.VK_G)));
       tools.add(new SoftBlurAction("", new ImageIcon("./src/imageIcons/blur.png"), "Apply a soft blur", Integer.valueOf(KeyEvent.VK_M)));
       tools.add(new SharpenFilterAction("", new ImageIcon("./src/imageIcons/sharpen.jpg"), "Sharpen the image", Integer.valueOf(KeyEvent.VK_M)));
@@ -223,6 +233,7 @@ public class FilterActions {
    }
   
 
+
    /**
     * <p>
     * Action to sharpen an image using convolution.
@@ -230,7 +241,6 @@ public class FilterActions {
     * 
     * @see SharpenFilter
     */
-
    public class SharpenFilterAction extends ImageAction {
    
       /**
@@ -260,6 +270,397 @@ public class FilterActions {
       } 
       
    }
+
+
+
+   /**
+   * <p>
+   * Action to emboss an image using convolution.
+   * </p>
+   * 
+   * @see EmbossFilter
+   */
+   public class EmbossLeftRightAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new emboss-filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      EmbossLeftRightAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new EmbossLeftRight()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before emboss", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
+
+   /**
+   * <p>
+   * Action to emboss an image using convolution.
+   * </p>
+   * 
+   * @see EmbossFilter
+   */
+   public class EmbossLeftDownDiagonalAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new emboss-filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      EmbossLeftDownDiagonalAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new EmbossLeftDownDiagonal()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before embossing", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
+
+   /**
+   * <p>
+   * Action to emboss an image using convolution.
+   * </p>
+   * 
+   * @see EmbossFilter
+   */
+   public class EmbossUpDownAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new emboss-filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      EmbossUpDownAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new EmbossUpDown()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before emboss", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
+
+   /**
+   * <p>
+   * Action to emboss an image using convolution.
+   * </p>
+   * 
+   * @see EmbossFilter
+   */
+   public class EmbossRightDownDiagonalAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new emboss-filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      EmbossRightDownDiagonalAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new EmbossRightDownDiagonal()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before emboss", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
+   /**
+   * <p>
+   * Action to emboss an image using convolution.
+   * </p>
+   * 
+   * @see EmbossFilter
+   */
+   public class EmbossRightLeftAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new emboss-filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      EmbossRightLeftAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new EmbossRightLeft()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before emboss", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
+
+   /**
+   * <p>
+   * Action to emboss an image using convolution.
+   * </p>
+   * 
+   * @see EmbossFilter
+   */
+   public class EmbossRightUpDiagonalAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new emboss-filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      EmbossRightUpDiagonalAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new EmbossRightUpDiagonal()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before emboss", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
+   /**
+   * <p>
+   * Action to emboss an image using convolution.
+   * </p>
+   * 
+   * @see EmbossFilter
+   */
+   public class EmbossDownUpAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new emboss-filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      EmbossDownUpAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new EmbossDownUp()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before emboss", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
+   /**
+   * <p>
+   * Action to emboss an image using convolution.
+   * </p>
+   * 
+   * @see EmbossFilter
+   */
+   public class EmbossLeftUpDiagonalAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new emboss-filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      EmbossLeftUpDiagonalAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new EmbossLeftUpDiagonal()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before emboss", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
+
+
+
+   /**
+   * <p>
+   * Action to Sobel an image using convolution.
+   * </p>
+   * 
+   * @see SobelFilter
+   */
+    public class SobelLeftRightAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new sobel filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      SobelLeftRightAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new SobelLeftRight()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before Sobel", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
+
+   /**
+   * <p>
+   * Action to Sobel an image using convolution.
+   * </p>
+   * 
+   * @see SobelFilter
+   */
+   public class SobelUpDownAction extends ImageAction {
+   
+      /**
+       * <p>
+       * Create a new sobel-filter action.
+       * </p>
+       * 
+       * @param name The name of the action (ignored if null).
+       * @param icon An icon to use to represent the action (ignored if null).
+       * @param desc A brief description of the action  (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+       */  
+      SobelUpDownAction(String name, ImageIcon icon,
+                 String desc, Integer mnemonic) {               
+         super(name, icon, desc, mnemonic);         
+      }
+         
+      public void actionPerformed(ActionEvent e) { 
+         try{
+      // Create and apply the filter 
+         target.getImage().apply(new SobelUpDown()); 
+         target.repaint(); 
+         target.getParent().revalidate();
+      }catch(NullPointerException E){
+         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before Sobel", "alert!", JOptionPane.ERROR_MESSAGE);
+      }
+      } 
+      
+   }
+
+
    
    /**
     * <p>
