@@ -173,9 +173,10 @@ public class Andie {
     public static void main(String[] args) throws Exception {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                try {
+                try{
                     createAndShowGUI();
-                } catch (Exception ex) {
+                }catch(Exception ex) {
+                    System.out.println("EXIT");
                     System.exit(1);
                 }
             }

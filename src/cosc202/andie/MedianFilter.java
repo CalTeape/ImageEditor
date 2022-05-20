@@ -28,8 +28,8 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         
         // Iterating through the array of pixels for everything within the given radius from the edge
-        for (int y = radius; y < input.getHeight() - radius - 1; y++) {
-            for (int x = radius; x < input.getWidth() - radius - 1; x++) {
+        for (int y = 0; y < input.getHeight(); y++) {
+            for (int x = 0; x < input.getWidth(); x++) {
                 output.setRGB(x, y, returnMedian(input, x, y, radius));
             }
         }
@@ -46,13 +46,27 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         int[] g = new int[size];
         int[] b = new int[size];
 
-        for (int v = y - radius; v <= y + radius; v++) {
-            for (int u = x - radius; u <= x + radius; u++) {
-                int argb = input.getRGB(u, v);
-                a[count] = (argb & 0xFF000000);
-                r[count] = (argb & 0x00FF0000) >> 16;
-                g[count] = (argb & 0x0000FF00) >> 8;
-                b[count] = (argb & 0x000000FF);
+        for (int dy = y - radius; dy <= y + radius; dy++) {
+            for (int dx = x - radius; dx <= x + radius; dx++) {
+                int inputRGB;
+
+                //account for edge cases by making edges the value of the nearest valid value in the grid
+                if(dx < 0 && dy < 0                                      ||  //top left corner
+                   dx < 0 && dy > input.getHeight() - 1                  ||  // bottom left corner
+                   dx > input.getWidth() - 1 && dy < 0                   ||  //top right corner
+                   dx > input.getWidth() - 1 && dy > input.getHeight() - 1){ //bottom right corner
+                    inputRGB = input.getRGB(x, y);
+
+                }
+
+                else if(dx < 0 || dx > input.getWidth() - 1) inputRGB = input.getRGB(x, dy);  //account for vertical edges
+                else if(dy < 0 || dy > input.getHeight() - 1) inputRGB = input.getRGB(dx, y); //account for horizontal edges
+
+                else inputRGB = input.getRGB(dx, dy); // normal  
+                a[count] = (inputRGB & 0xFF000000);
+                r[count] = (inputRGB & 0x00FF0000) >> 16;
+                g[count] = (inputRGB & 0x0000FF00) >> 8;
+                b[count] = (inputRGB & 0x000000FF);
                 count ++;
             }
         }
