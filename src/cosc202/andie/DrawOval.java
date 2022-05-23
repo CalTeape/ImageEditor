@@ -16,7 +16,7 @@ public class DrawOval implements ImageOperation, java.io.Serializable{
      */
     DrawOval(int[] position, Color colour, boolean fill){
         this.pos = position.clone();
-        this.colour = new Color(colour.getRGB());
+        this.colour = new Color(colour.getRed(), colour.getGreen(), colour.getRed(), colour.getAlpha());
         this.fill = fill;
     }
 
