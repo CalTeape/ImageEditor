@@ -36,11 +36,13 @@ public class TransformsActions {
    public TransformsActions() {
       actions = new ArrayList<Action>();
       tools = new ArrayList<Action>();
-      actions.add(new RotateAntiClockwiseAction("Rotate Left", null, "Rotate 90 degrees Anticlockwise",Integer.valueOf(KeyEvent.VK_A)));
-      actions.add(new RotateClockwiseAction("Rotate Right", null, "Rotate 90 degrees Clockwise",Integer.valueOf(KeyEvent.VK_S)));
-      actions.add(new ResizeAction("Resize the image", null, "change the image size in Pixels", Integer.valueOf(KeyEvent.VK_D)));
+      actions.add(new CropAction("Crop", null, "Crop to selection",null));
+      actions.add(new RotateAntiClockwiseAction("Rotate Anti-Clockwise", null, "Rotate 90 degrees Anticlockwise",Integer.valueOf(KeyEvent.VK_A)));
+      actions.add(new RotateClockwiseAction("Rotate Clockwise", null, "Rotate 90 degrees Clockwise",Integer.valueOf(KeyEvent.VK_S)));
+      actions.add(new ResizeAction("Resize the image", null, "change the image size in pixels", Integer.valueOf(KeyEvent.VK_D)));
       actions.add(new InvertVerticalAction("Invert the Image Vertically", null, "Invert the image on the y axis", Integer.valueOf(KeyEvent.VK_F)));
       actions.add(new InvertHorizontalAction("Invert Image Horizontally", null, "Invert the image along the x axis", Integer.valueOf(KeyEvent.VK_G)));
+      tools.add(new CropAction("", new ImageIcon("./src/imageIcons/crop.png"), "Crop to selection", null));
       tools.add(new RotateAntiClockwiseAction("", new ImageIcon("./src/imageIcons/rotateLeft.png"), "Rotate 90 degrees Anticlockwise", Integer.valueOf(KeyEvent.VK_F1)));
       tools.add(new RotateClockwiseAction("", new ImageIcon("./src/imageIcons/rotateRight.png"), "Rotate 90 degrees Clockwise", Integer.valueOf(KeyEvent.VK_F2)));
    }
@@ -54,7 +56,7 @@ public class TransformsActions {
      * @return The transform menu UI element.
      */
    public JMenu createMenu() {
-      JMenu fileMenu = new JMenu("Transforms");
+      JMenu fileMenu = new JMenu("Transform");
 
       for (Action action : actions) {
          fileMenu.add(new JMenuItem(action));
@@ -98,38 +100,38 @@ public class TransformsActions {
       public void actionPerformed(ActionEvent e) {
          try{
 
-         int height = 1;
-         int width = 1;
+            int height = 1;
+            int width = 1;
 
-         // taken from FilterActions
-         SpinnerNumberModel pixelHeightModel = new SpinnerNumberModel(1, 1, 1920, 1);
-         SpinnerNumberModel pixelWidthModel = new SpinnerNumberModel(1, 1, 1920, 1);
-         JSpinner pixelHeightSpinner = new JSpinner(pixelHeightModel);
-         JSpinner pixelWidthSpinner = new JSpinner(pixelWidthModel);
+            // taken from FilterActions
+            SpinnerNumberModel pixelHeightModel = new SpinnerNumberModel(1, 1, 1920, 1);
+            SpinnerNumberModel pixelWidthModel = new SpinnerNumberModel(1, 1, 1920, 1);
+            JSpinner pixelHeightSpinner = new JSpinner(pixelHeightModel);
+            JSpinner pixelWidthSpinner = new JSpinner(pixelWidthModel);
 
-         JPanel panel = new JPanel();
-         panel.add(new JLabel("Height:"));
-         panel.add(pixelHeightSpinner);
-         panel.add(Box.createHorizontalStrut(15));
-         panel.add(new JLabel("Width:"));
-         panel.add(pixelWidthSpinner);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Height:"));
+            panel.add(pixelHeightSpinner);
+            panel.add(Box.createHorizontalStrut(15));
+            panel.add(new JLabel("Width:"));
+            panel.add(pixelWidthSpinner);
 
-         int option = JOptionPane.showOptionDialog(null, panel, "Enter new image size", JOptionPane.OK_CANCEL_OPTION,
-               JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, panel, "Enter new image size", JOptionPane.OK_CANCEL_OPTION,
+                  JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-         if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
-            return;
-         } else if (option == JOptionPane.OK_OPTION) {          
-            height = pixelWidthModel.getNumber().intValue();
-            width = pixelHeightModel.getNumber().intValue();
+            if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+               return;
+            } else if (option == JOptionPane.OK_OPTION) {          
+               height = pixelWidthModel.getNumber().intValue();
+               width = pixelHeightModel.getNumber().intValue();
+            }
+
+               target.getImage().apply(new ResizeImage(height, width));
+               target.repaint();
+               target.getParent().revalidate();
+         }catch(NullPointerException E){
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before resizing", "alert!", JOptionPane.ERROR_MESSAGE);
          }
-
-         target.getImage().apply(new ResizeImage(height, width));
-         target.repaint();
-         target.getParent().revalidate();
-      }catch(NullPointerException E){
-         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before resizing", "alert!", JOptionPane.ERROR_MESSAGE);
-      }
       }
 
    }
@@ -153,12 +155,12 @@ public class TransformsActions {
       // initiates the action on RotateImage
       public void actionPerformed(ActionEvent e) {
          try{
-         target.getImage().apply(new RotateImage(false));
-         target.repaint();
-         target.getParent().revalidate();
-      }catch(NullPointerException E){
-         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before rotating", "alert!", JOptionPane.ERROR_MESSAGE);
-      }
+            target.getImage().apply(new RotateImage(false));
+            target.repaint();
+            target.getParent().revalidate();
+         }catch(NullPointerException E){
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before rotating", "alert!", JOptionPane.ERROR_MESSAGE);
+         }
       }
    }
 
@@ -207,12 +209,12 @@ public class TransformsActions {
 
       public void actionPerformed(ActionEvent e) {
          try{
-         target.getImage().apply(new InvertImage(true));
-         target.repaint();
-         target.getParent().revalidate();
-      }catch(NullPointerException E){
-         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before inverting", "alert!", JOptionPane.ERROR_MESSAGE);
-      }
+            target.getImage().apply(new InvertImage(true));
+            target.repaint();
+            target.getParent().revalidate();
+         }catch(NullPointerException E){
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before inverting", "alert!", JOptionPane.ERROR_MESSAGE);
+         }
       }
    }
 
@@ -234,12 +236,43 @@ public class TransformsActions {
 
       public void actionPerformed(ActionEvent e) {
          try{
-         target.getImage().apply(new InvertImage(false));
-         target.repaint();
-         target.getParent().revalidate();
-      }catch(NullPointerException E){
-         JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before inverting", "alert!", JOptionPane.ERROR_MESSAGE);
-      }
+            target.getImage().apply(new InvertImage(false));
+            target.repaint();
+            target.getParent().revalidate();
+         }catch(NullPointerException E){
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before inverting", "alert!", JOptionPane.ERROR_MESSAGE);
+         }
       }
    }
+
+   public class CropAction extends ImageAction {
+
+      /**
+       * <p>
+       * Create a new CropAction.
+       * </p>
+       * 
+       * @param name     The name of the action (ignored if null).
+       * @param icon     An icon to use to represent the action (ignored if null).
+       * @param desc     A brief description of the action (ignored if null).
+       * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+       */
+      CropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+         super(name, icon, desc, mnemonic);
+      }
+
+      public void actionPerformed(ActionEvent e) {
+         try{
+            target.getImage().apply(new Crop(Andie.mouseSelection));
+            target.repaint();
+            target.getParent().revalidate();
+         }catch(NullPointerException E){
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before cropping", "alert!", JOptionPane.ERROR_MESSAGE);
+         }
+      }
+   }
+
+
+   
+
 }
