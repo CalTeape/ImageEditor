@@ -39,16 +39,8 @@ public class FilterActions {
       actions.add(new MedianFilterAction("Median filter:", null, "Apply a median filter", Integer.valueOf(KeyEvent.VK_S)));
       actions.add(new SoftBlurAction("Soft Blur", null, "Apply a soft blur", Integer.valueOf(KeyEvent.VK_D)));
       actions.add(new SharpenFilterAction("Sharpen", null, "Sharpen the image", Integer.valueOf(KeyEvent.VK_F)));
-      actions.add(new EmbossLeftRightAction("Emboss (left -> right", null, "Emboss the image", null));
-      actions.add(new EmbossLeftDownDiagonalAction("Emboss (top left -> bottom right)", null, "Emboss the image", null));
-      actions.add(new EmbossUpDownAction("Emboss (up -> down)", null, "Emboss the image", null));
-      actions.add(new EmbossRightDownDiagonalAction("Emboss (top right -> bottom left)", null, "Emboss the image", null));
-      actions.add(new EmbossRightLeftAction("Emboss (right -> left)", null, "Emboss the image", null));
-      actions.add(new EmbossRightUpDiagonalAction("Emboss (bottom right -> top left)", null, "Emboss the image", null));
-      actions.add(new EmbossDownUpAction("Emboss (down -> up)", null, "Emboss the image", null));
-      actions.add(new EmbossLeftUpDiagonalAction("Emboss (bottom left -> top right)", null, "Emboss the image", null));
-      actions.add(new SobelLeftRightAction("Sobel Filter (left -> right)", null, "Apply a sobel filter", null));
-      actions.add(new SobelUpDownAction("Sobel Filter (up -> down)", null, "Apply a sobel filter", null));
+      actions.add(new EmbossFilterAction("Emboss", null, "Emboss the image", null));
+      actions.add(new SobelFilterAction("Sobel Filter", null, "Apply a sobel filter", null));
       actions.add(new GaussianBlurAction("Gaussian Blur", null, "Apply a Gaussian blur", Integer.valueOf(KeyEvent.VK_G)));
       tools.add(new SoftBlurAction("", new ImageIcon("./src/imageIcons/blur.png"), "Apply a soft blur", Integer.valueOf(KeyEvent.VK_M)));
       tools.add(new SharpenFilterAction("", new ImageIcon("./src/imageIcons/sharpen.jpg"), "Sharpen the image", Integer.valueOf(KeyEvent.VK_M)));
@@ -272,7 +264,46 @@ public class FilterActions {
    }
 
 
+   public class EmbossFilterAction extends ImageAction {
 
+      EmbossFilterAction(String name, ImageIcon icon,
+            String desc, Integer mnemonic) {               
+      super(name, icon, desc, mnemonic);         
+      }
+
+      public void actionPerformed(ActionEvent e) { 
+         String[] options = {
+            "Left -> Right",
+            "Top-Left -> Bottom-Right",
+            "Up -> Down",
+            "Top-Right -> Bottom-Left",
+            "Right -> Left",
+            "Bottom-Right -> Top-Left",
+            "Down -> Up",
+            "Bottom-Left -> Top-Right"
+         };  
+
+         Action[] embossActions = {
+            new EmbossLeftRightAction("Emboss (left -> right", null, "Emboss the image", null),
+            new EmbossLeftDownDiagonalAction("Emboss (top left -> bottom right)", null, "Emboss the image", null),
+            new EmbossUpDownAction("Emboss (up -> down)", null, "Emboss the image", null),
+            new EmbossRightDownDiagonalAction("Emboss (top right -> bottom left)", null, "Emboss the image", null),
+            new EmbossRightLeftAction("Emboss (right -> left)", null, "Emboss the image", null),
+            new EmbossRightUpDiagonalAction("Emboss (bottom right -> top left)", null, "Emboss the image", null),
+            new EmbossDownUpAction("Emboss (down -> up)", null, "Emboss the image", null),
+            new EmbossLeftUpDiagonalAction("Emboss (bottom left -> top right)", null, "Emboss the image", null)    
+         };
+
+         Object selectedDirection = JOptionPane.showInputDialog(null, "Choose a Direction to Emboss in", "Directions", JOptionPane.QUESTION_MESSAGE, null, options, null);
+         
+         int index = 0;
+         for(int i = 0; i < options.length; i ++){
+             if(options[i].equals(selectedDirection)) index = i;
+         }
+         embossActions[index].actionPerformed(e);
+      }
+
+   }
    /**
    * <p>
    * Action to emboss an image using convolution.
@@ -309,8 +340,6 @@ public class FilterActions {
       } 
       
    }
-
-
 
    /**
    * <p>
@@ -583,6 +612,36 @@ public class FilterActions {
 
 
 
+   public class SobelFilterAction extends ImageAction {
+
+      SobelFilterAction(String name, ImageIcon icon,
+            String desc, Integer mnemonic) {               
+      super(name, icon, desc, mnemonic);         
+      }
+
+      public void actionPerformed(ActionEvent e) { 
+         String[] options = {
+            "Left -> Right",
+            "Up -> Down",
+            "Black/White Edge Detector"
+         };  
+
+         Action[] sobelActions = {
+            new SobelLeftRightAction("Sobel Filter (left -> right)", null, "Apply a sobel filter", null),
+            new SobelUpDownAction("Sobel Filter (up -> down)", null, "Apply a sobel filter", null),
+            new SobelGreyscaleAction("Sobel Filter (black and white edge detection)", null, "Apply a sobel filter", null)
+         };
+
+         Object selectedDirection = JOptionPane.showInputDialog(null, "Choose a Direction to Emboss in", "Directions", JOptionPane.QUESTION_MESSAGE, null, options, null);
+         
+         int index = 0;
+         for(int i = 0; i < options.length; i ++){
+             if(options[i].equals(selectedDirection)) index = i;
+         }
+         sobelActions[index].actionPerformed(e);
+      }
+
+   }
 
    /**
    * <p>
@@ -659,6 +718,45 @@ public class FilterActions {
       } 
       
    }
+
+    /**
+   * <p>
+   * Action to Sobel an image using convolution.
+   * </p>
+   * 
+   * @see SobelFilter
+   */
+  public class SobelGreyscaleAction extends ImageAction {
+   
+   /**
+    * <p>
+    * Create a new sobel filter action.
+    * </p>
+    * 
+    * @param name The name of the action (ignored if null).
+    * @param icon An icon to use to represent the action (ignored if null).
+    * @param desc A brief description of the action  (ignored if null).
+    * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+    */  
+   SobelGreyscaleAction(String name, ImageIcon icon,
+              String desc, Integer mnemonic) {               
+      super(name, icon, desc, mnemonic);         
+   }
+      
+   public void actionPerformed(ActionEvent e) { 
+      try{
+   // Create and apply the filter 
+      target.getImage().apply(new SobelGreyscale()); 
+      target.repaint(); 
+      target.getParent().revalidate();
+   }catch(NullPointerException E){
+      JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before Sobel", "alert!", JOptionPane.ERROR_MESSAGE);
+   }
+   } 
+   
+}
+
+
 
 
    
