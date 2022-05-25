@@ -36,9 +36,9 @@ public class DrawActions {
         actions = new ArrayList<Action>();
         tools = new ArrayList<Action>();
         actions.add(new DrawRectangleAction("Draw Rectangle", null, "Draw a rectangle", null));
-        tools.add(new DrawRectangleAction("", new ImageIcon("./src/imageIcons/rectangle.png"), "Draw a rectangle", null));
+        tools.add(new DrawRectangleAction("", new ImageIcon("./src/imageIcons/drawRectangle.png"), "Draw a rectangle", null));
         actions.add(new DrawOvalAction("Draw Oval", null, "Draw an oval", null));
-        tools.add(new DrawOvalAction("", new ImageIcon("./src/imageIcons/oval.png"), "Draw an oval", null));
+        tools.add(new DrawOvalAction("", new ImageIcon("./src/imageIcons/drawCircle.png"), "Draw an oval", null));
     }
 
     /**

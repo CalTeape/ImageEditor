@@ -2,16 +2,16 @@ package cosc202.andie;
 
 import java.awt.image.BufferedImage;
 
-class PosterizeImage implements ImageOperation{
 
 
+public class PosterizeImage implements ImageOperation{
+//private int range;
 
-class PosterizeImage implements ImageOperation{
-    
     public final int mode = 2;
     
 
     public PosterizeImage(int range) {
+        //this.range = range;
     }
 
     // @param takes BufferedImage
