@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.awt.image.BufferedImage;
 
+class PosterizeImage implements ImageOperation{
 
 
 

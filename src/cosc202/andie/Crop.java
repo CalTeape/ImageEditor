@@ -28,6 +28,7 @@ public class Crop implements ImageOperation{
      * @return the resulting adjusted image.
      */
     public BufferedImage apply(BufferedImage input) {
+        if(!Andie.activeSelection) return input;
         Andie.activeSelection = false;
 
         if(selection[2] > input.getWidth()) selection[2] = input.getWidth();
