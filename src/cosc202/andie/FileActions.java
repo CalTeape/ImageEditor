@@ -122,7 +122,7 @@ public class FileActions {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().open(imageFilepath);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error: this is not a valid image. Please try again.", "alert!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error: this is not a valid ops file. Please try again.", "alert!", JOptionPane.ERROR_MESSAGE);
                 }
             }
 

@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -23,10 +24,10 @@ import java.awt.image.BufferedImage;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills, Jarod Peacock
  * @version 1.0
  */
-public interface ImageOperation {
+public interface ImageOperation extends Serializable {
 
     /**
      * Apply the operation to an image.

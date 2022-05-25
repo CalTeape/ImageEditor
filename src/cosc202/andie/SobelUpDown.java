@@ -17,7 +17,7 @@ import java.awt.Color;
  * @author Callum Teape
  * @version 1.0
  */
-public class SobelUpDown implements ImageOperation, java.io.Serializable {
+public class SobelUpDown implements ImageOperation {
     private int radius;
 
 

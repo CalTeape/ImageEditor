@@ -14,7 +14,7 @@ import java.awt.image.*;
  * @author Jack Searle
  * @version 1.0
  */
-public class BrightnessAndContrast implements ImageOperation, java.io.Serializable {
+public class BrightnessAndContrast implements ImageOperation {
 
     /**
      * The brightness and contrast values to be applied to the target image.

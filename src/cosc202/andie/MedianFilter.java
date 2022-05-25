@@ -4,7 +4,7 @@ import java.awt.image.*;
 import java.util.*;
 
 
-public class MedianFilter implements ImageOperation, java.io.Serializable {
+public class MedianFilter implements ImageOperation {
     
     // Size of the filter applied to the image
     private int radius;

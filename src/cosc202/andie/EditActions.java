@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
  /**
@@ -19,7 +20,7 @@ import javax.swing.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills, Callum Teape
+ * @author Steven Mills, Callum Teape, Jarod Peacock
  * @version 1.0
  */
 public class EditActions {
@@ -38,6 +39,8 @@ public class EditActions {
         tools = new ArrayList<Action>();
         actions.add(new UndoAction("Undo", null, "Undo", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new RedoAction("Redo", null, "Redo", Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new RecordMacroAction( "Record Macro", null, "RecordMacro", Integer.valueOf(KeyEvent.VK_D)));
+        actions.add(new PerformMacroAction( "Perform Macro", null, "PerformMacro", Integer.valueOf(KeyEvent.VK_F)));
         tools.add(new UndoAction("", new ImageIcon("./src/imageIcons/undo.jpg"), "Undo", Integer.valueOf(KeyEvent.VK_Z)));
         tools.add(new RedoAction("", new ImageIcon("./src/imageIcons/redo.jpg"), "Redo", Integer.valueOf(KeyEvent.VK_Y)));
     }
@@ -118,6 +121,82 @@ public class EditActions {
         }catch(EmptyStackException E){
             JOptionPane.showMessageDialog(null, "Error: no operations to undo!", "alert!", JOptionPane.ERROR_MESSAGE);
         }
+        }
+    }
+
+    /**
+     * Method to record one or more {@link ImageOperation}s
+     * 
+     * @param name The name of the action
+     * @param icon icon to represent action
+     * @param desc brief description
+     * @param mnemonic A shortcut key to use for accessing the method
+     */
+    public class RecordMacroAction extends ImageAction{
+
+        RecordMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+
+            if (!(target.getImage().macro)) {
+                target.getImage().recordMacro();
+            } else {
+                int r = JOptionPane.showConfirmDialog(null, "Would you like to save the current Macro?", "Save Macro?",  JOptionPane.YES_NO_OPTION);
+                if (r == JOptionPane.YES_OPTION) {
+                    JFileChooser fChooser = new JFileChooser();
+                    int result = fChooser.showOpenDialog(target);
+
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        try {
+                            String fp = fChooser.getSelectedFile().getCanonicalPath();
+                            target.getImage().saveMacro(fp);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, "Error: this is not a valid ops file. Please try again.", "alert!", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } else {
+                    int s = JOptionPane.showConfirmDialog(null, "Would you like to begin recording of a new Macro?", "New Macro?",  JOptionPane.YES_NO_OPTION);
+                    if (s == JOptionPane.YES_OPTION) {
+                        target.getImage().recordMacro(true);
+                    } else {
+                        target.getImage().recordMacro(false);
+                    }
+                }
+            }
+
+            return;
+        }
+    }
+
+    /**
+     * Method to be used in conjunction with MacroStartAction to save a macro
+     * 
+     * @param name The name of the action
+     * @param icon icon to represent action
+     * @param desc brief description
+     * @param mnemonic A shortcut key to use for accessing the method
+     */
+    public class PerformMacroAction extends ImageAction {
+
+        PerformMacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(target);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    String ofp = fileChooser.getSelectedFile().getCanonicalPath();
+                    target.getImage().performMacro(ofp);
+                    target.repaint();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error: Make sure an image is loaded and that a valid ops file is selected", "alert!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
 

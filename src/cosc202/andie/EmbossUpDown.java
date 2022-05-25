@@ -17,7 +17,7 @@ import java.awt.Color;
  * @author Callum Teape
  * @version 1.0
  */
-public class EmbossUpDown implements ImageOperation, java.io.Serializable {
+public class EmbossUpDown implements ImageOperation {
     private int radius;
 
 
