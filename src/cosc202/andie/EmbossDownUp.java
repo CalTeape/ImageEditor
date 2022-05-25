@@ -44,6 +44,7 @@ public class EmbossDownUp implements ImageOperation {
             BufferedImage output = new BufferedImage(input.getColorModel(), 
                                    input.copyData(null), 
                                    input.isAlphaPremultiplied(), null);
+                                   
            
             double[][] kernel = { 
                                 {0   ,  -1,    0},

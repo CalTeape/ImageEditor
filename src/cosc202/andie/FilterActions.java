@@ -632,7 +632,7 @@ public class FilterActions {
             new SobelGreyscaleAction("Sobel Filter (black and white edge detection)", null, "Apply a sobel filter", null)
          };
 
-         Object selectedDirection = JOptionPane.showInputDialog(null, "Choose a Direction to Emboss in", "Directions", JOptionPane.QUESTION_MESSAGE, null, options, null);
+         Object selectedDirection = JOptionPane.showInputDialog(null, "Choose a Direction to apply the Sobel Filter in", "Directions", JOptionPane.QUESTION_MESSAGE, null, options, null);
          
          int index = 0;
          for(int i = 0; i < options.length; i ++){

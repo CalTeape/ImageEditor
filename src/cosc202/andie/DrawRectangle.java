@@ -3,7 +3,7 @@ package cosc202.andie;
 import java.awt.*;
 import java.awt.image.*;
 
-public class DrawRectangle implements ImageOperation, java.io.Serializable{
+public class DrawRectangle implements ImageOperation{
     
     private int[] pos;
     private Color colour;

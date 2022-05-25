@@ -267,7 +267,7 @@ public class TransformsActions {
             target.repaint();
             target.getParent().revalidate();
          }catch(NullPointerException E){
-            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before cropping", "alert!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error: a valid cropping selection has not been made!", "alert!", JOptionPane.ERROR_MESSAGE);
          }
       }
    }

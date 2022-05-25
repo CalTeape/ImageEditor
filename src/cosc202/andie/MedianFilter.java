@@ -25,7 +25,7 @@ public class MedianFilter implements ImageOperation {
     }
 
     public BufferedImage apply(BufferedImage input) {
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
+        BufferedImage output = input;
         
         // Iterating through the array of pixels for everything within the given radius from the edge
         for (int y = 0; y < input.getHeight(); y++) {

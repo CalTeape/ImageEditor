@@ -146,7 +146,7 @@ public class EditActions {
                 int r = JOptionPane.showConfirmDialog(null, "Would you like to save the current Macro?", "Save Macro?",  JOptionPane.YES_NO_OPTION);
                 if (r == JOptionPane.YES_OPTION) {
                     JFileChooser fChooser = new JFileChooser();
-                    int result = fChooser.showOpenDialog(target);
+                    int result = fChooser.showSaveDialog(target);
 
                     if (result == JFileChooser.APPROVE_OPTION) {
                         try {
