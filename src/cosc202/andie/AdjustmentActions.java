@@ -37,6 +37,8 @@ public class AdjustmentActions {
     public AdjustmentActions() {
         actions = new ArrayList<Action>();
         tools = new ArrayList<Action>();
+        actions.add(new PosterizeImageAction("Posterize", null, "Posterize the image", null));
+
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new BrightnessAndContrastAction("Brightness & Contrast", null, "Adjust the brightness and/or contrast", Integer.valueOf(KeyEvent.VK_S)));
         tools.add(new BrightnessAndContrastAction("", new ImageIcon("./src/imageIcons/brightness.png"), "Adjust the brightness and/or contrast", null));
@@ -77,7 +79,39 @@ public class AdjustmentActions {
 
 
 
+    public class PosterizeImageAction extends ImageAction {
 
+        PosterizeImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            try{
+
+                int colourRange = 2;
+                SpinnerNumberModel pixelColorRangeModel = new SpinnerNumberModel(6, 2, 20, 2);
+                JSpinner pixelColoSpinner = new JSpinner(pixelColorRangeModel);
+
+                JPanel panel = new JPanel();
+                panel.add(new JLabel("Colour Range"));
+                panel.add(pixelColoSpinner);
+                
+                int option = JOptionPane.showOptionDialog(null, panel, "what is the Posterization threshhold", JOptionPane.OK_CANCEL_OPTION,
+               JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+         if (option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
+            return;
+         } else if (option == JOptionPane.OK_OPTION) {          
+            colourRange = pixelColorRangeModel.getNumber().intValue();
+            }
+            target.getImage().apply(new PosterizeImage(colourRange));
+            target.repaint();
+            target.getParent().revalidate();
+        }catch(NullPointerException E){
+            JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before resizing", "alert!", JOptionPane.ERROR_MESSAGE);
+         }
+         }
+    }
     /**
      * <p>
      * Action to convert an image to greyscale.
