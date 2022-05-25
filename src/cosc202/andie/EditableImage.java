@@ -28,7 +28,7 @@ import javax.imageio.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills, Jarod Peacock
  * @version 1.0
  */
 class EditableImage {
@@ -41,6 +41,10 @@ class EditableImage {
     private Stack<ImageOperation> ops;
     /** A memory of 'undone' operations to support 'redo'. */
     private Stack<ImageOperation> redoOps;
+    /** A memory of actions for the Macro function */
+    private Stack<ImageOperation> macroOps;
+    /** A boolean to determine whether or not the current actions should be stored in macroOps */
+    public boolean macro;
     /** The file where the original image is stored/ */
     private String imageFilename;
     /** The file where the operation sequence is stored. */
@@ -60,6 +64,8 @@ class EditableImage {
         current = null;
         ops = new Stack<ImageOperation>();
         redoOps = new Stack<ImageOperation>();
+        macroOps = new Stack<ImageOperation>();
+        macro = false;
         imageFilename = null;
         opsFilename = null;
     }
@@ -135,6 +141,7 @@ class EditableImage {
     public void open(String filePath) throws Exception {
         this.ops.clear();
         this.redoOps.clear();
+        macro = false;
         imageFilename = filePath;
         opsFilename = imageFilename + ".ops";
         File imageFile = new File(imageFilename);
@@ -239,8 +246,12 @@ class EditableImage {
      * @param op The operation to apply.
      */
     public void apply(ImageOperation op) {
+        System.out.println(op);
         current = op.apply(current);
         ops.add(op);
+        if (macro) {
+            macroOps.add(op);
+        }
     }
 
     /**
@@ -251,6 +262,9 @@ class EditableImage {
     public void undo() {
         redoOps.push(ops.pop());
         refresh();
+        if (macro) {
+            macroOps.pop();
+        }
     }
 
     /**
@@ -259,7 +273,72 @@ class EditableImage {
      * </p>
      */
     public void redo()  {
-        apply(redoOps.pop());
+        ImageOperation io = redoOps.pop();
+        apply(io);
+        if (macro) {
+            macroOps.add(io);
+        }
+    }
+
+    /**
+     * Begin or end recording of a macro
+     */
+    public void recordMacro() {
+        macro = true;
+    }
+
+    /**
+     * Begin recording of a new macro or stop recording depending on user input
+     * @param b user input given
+     */
+    public void recordMacro(boolean b) {
+        macroOps.clear();
+        if (!b) {
+            macro = false;
+        }
+    }
+
+    /**
+     * Save the current macro stack as an operation file
+     * @param name the filename to save the macro as
+     */
+    public void saveMacro(String name) {
+        try {
+            name = name + ".ops";
+            FileOutputStream fout = new FileOutputStream(name);
+            ObjectOutputStream oout = new ObjectOutputStream(fout);
+            oout.writeObject(macroOps);
+            oout.close();
+            fout.close();
+            macroOps.clear();
+            macro = false;
+        } catch (Exception exc) {
+            macroOps.clear();
+            macro = false;
+        }
+    }
+
+    /**
+     * Method to perform the actions saved in an existing macro 'ops' file
+     * @param path file path for the desired macro
+     * @throws Exception
+     */
+    public void performMacro(String path) throws Exception {
+        try {
+            FileInputStream fle = new FileInputStream(path);
+            ObjectInputStream obj = new ObjectInputStream(fle);
+            @SuppressWarnings("unchecked")
+            Stack<ImageOperation> newMacroOps = (Stack<ImageOperation>) obj.readObject();
+            for (ImageOperation i : newMacroOps) {
+                System.out.println(i);
+                current = i.apply(current);
+                ops.add(i);
+            }
+            obj.close();
+            fle.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     /**
@@ -321,7 +400,5 @@ class EditableImage {
         }catch(Exception ex){
            System.out.println("exception");
         }
-     }
-  
-    
+    }
 }

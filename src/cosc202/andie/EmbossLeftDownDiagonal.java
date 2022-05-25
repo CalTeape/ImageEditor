@@ -17,7 +17,7 @@ import java.awt.Color;
  * @author Callum Teape
  * @version 1.0
  */
-public class EmbossLeftDownDiagonal implements ImageOperation, java.io.Serializable {
+public class EmbossLeftDownDiagonal implements ImageOperation {
     private int radius;
 
 

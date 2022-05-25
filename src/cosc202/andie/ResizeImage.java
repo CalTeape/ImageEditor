@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.awt.Graphics2D;
 
 
-public class ResizeImage implements ImageOperation, java.io.Serializable {
+public class ResizeImage implements ImageOperation {
 
     public int height;
     public int width;
