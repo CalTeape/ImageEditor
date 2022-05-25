@@ -2,7 +2,7 @@ package cosc202.andie;
 
 import java.awt.image.*;
 
-public class Crop implements ImageOperation, java.io.Serializable{
+public class Crop implements ImageOperation{
 
     private int[] selection;
     
@@ -33,6 +33,7 @@ public class Crop implements ImageOperation, java.io.Serializable{
         if(selection[2] > input.getWidth()) selection[2] = input.getWidth();
         if(selection[3] > input.getHeight()) selection[3] = input.getHeight();
         return input.getSubimage(selection[0], selection[1], selection[2]-selection[0], selection[3]-selection[1]);
+        
     }
 
 }

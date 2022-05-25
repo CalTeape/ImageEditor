@@ -45,6 +45,7 @@ public class SharpenFilter implements ImageOperation {
             BufferedImage output = new BufferedImage(input.getColorModel(), 
                                    input.copyData(null), 
                                    input.isAlphaPremultiplied(), null);
+                                   
            
             double[][] kernel = { 
                                 {0   , -0.5,    0},
@@ -89,6 +90,7 @@ public class SharpenFilter implements ImageOperation {
                                     rgbOutput[i] += kernel[radius + dx][radius + dy]*rgbaInput[i]; //add to current value in output array
                                 }
                             }
+                        }
                             
                     Color colOutput;
 
@@ -122,7 +124,6 @@ public class SharpenFilter implements ImageOperation {
                     output.setRGB(x, y, colOutput.getRGB()); //set pixel to this colour.
                     }
                 }
-            }
     
         return output;
         
