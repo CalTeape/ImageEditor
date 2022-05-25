@@ -3,7 +3,7 @@ package cosc202.andie;
 import java.awt.image.BufferedImage;
 import java.awt.Point;
 
-class RotateImage implements ImageOperation, java.io.Serializable {
+class RotateImage implements ImageOperation{
 
     boolean isClockwise;
 

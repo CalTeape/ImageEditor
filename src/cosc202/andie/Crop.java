@@ -2,7 +2,7 @@ package cosc202.andie;
 
 import java.awt.image.*;
 
-public class Crop implements ImageOperation, java.io.Serializable{
+public class Crop implements ImageOperation{
 
     private int[] selection;
     
@@ -28,6 +28,7 @@ public class Crop implements ImageOperation, java.io.Serializable{
      * @return the resulting adjusted image.
      */
     public BufferedImage apply(BufferedImage input) {
+        if(!Andie.activeSelection) return input;
         Andie.activeSelection = false;
 
         if(selection[2] > input.getWidth()) selection[2] = input.getWidth();

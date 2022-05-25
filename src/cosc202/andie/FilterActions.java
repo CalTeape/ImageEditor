@@ -36,7 +36,7 @@ public class FilterActions {
       actions = new ArrayList<Action>();
       tools = new ArrayList<Action>();
       actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_A)));
-      actions.add(new MedianFilterAction("Median filter:", null, "Apply a median filter", Integer.valueOf(KeyEvent.VK_S)));
+      actions.add(new MedianFilterAction("Median filter", null, "Apply a median filter", Integer.valueOf(KeyEvent.VK_S)));
       actions.add(new SoftBlurAction("Soft Blur", null, "Apply a soft blur", Integer.valueOf(KeyEvent.VK_D)));
       actions.add(new SharpenFilterAction("Sharpen", null, "Sharpen the image", Integer.valueOf(KeyEvent.VK_F)));
       actions.add(new EmbossFilterAction("Emboss", null, "Emboss the image", null));
