@@ -261,6 +261,7 @@ class EditableImage {
      */
     public void undo() {
         redoOps.push(ops.pop());
+        if(Andie.activeSelection) Andie.activeSelection = false;
         refresh();
         if (macro) {
             macroOps.pop();

@@ -13,11 +13,13 @@ import javax.imageio.*;
  * 
  * <p>
  * This class is the entry point for the program.
- * It creates a Graphical User Interface (GUI) that provides access to various image editing and processing operations.
+ * It creates a Graphical User Interface (GUI) that provides access to various
+ * image editing and processing operations.
  * </p>
  * 
  * <p>
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Steven Mills
@@ -25,7 +27,53 @@ import javax.imageio.*;
  */
 public class Andie {
 
-    public static ImagePanel imagePanel = new ImagePanel();
+    static ImagePanel imagePanel = new ImagePanel();
+
+    // Data fields for storing information about mouse drag.
+    public static boolean activeSelection = false;
+    public static int[] mouseSelection;
+
+    // Mouse listener to get mouse coordinates on mouse click.
+    private static MouseAdapter mouseListener = new MouseAdapter() {
+        public void mousePressed(MouseEvent e) {
+            if(activeSelection){
+                imagePanel.getImage().undo();
+                imagePanel.repaint();
+                imagePanel.revalidate();
+                activeSelection = false;
+            }
+            mouseSelection = new int[4];
+            mouseSelection[0] = e.getX();
+            mouseSelection[1] = e.getY();
+        }
+        public void mouseReleased(MouseEvent e) {
+            // if no drag, no selection made.
+            if(e.getX() == mouseSelection[0] && e.getY() == mouseSelection[1]){
+                return;
+            }
+            
+            // fill mouseSelection top right to bottom left.
+            if(e.getX() < mouseSelection[0]){
+                mouseSelection[2] = mouseSelection[0];
+                mouseSelection[0] = e.getX();
+            }else{
+                mouseSelection[2] = e.getX();
+            }
+            if(e.getY() < mouseSelection[1]){
+                mouseSelection[3] = mouseSelection[1];
+                mouseSelection[1] = e.getY();
+            }else{
+                mouseSelection[3] = e.getY();
+            }
+
+            // apply visuals once selection is made.
+            activeSelection = true;
+            imagePanel.getImage().apply(new RegionSelect(mouseSelection));
+            imagePanel.repaint();
+            imagePanel.revalidate();
+        }
+        
+    };
 
     /**
      * <p>
@@ -33,9 +81,11 @@ public class Andie {
      * </p>
      * 
      * <p>
-     * This method sets up an interface consisting of an active image (an {@code ImagePanel})
-     * and various menus which can be used to trigger operations to load, save, edit, etc. 
-     * These operations are implemented {@link ImageOperation}s and triggerd via 
+     * This method sets up an interface consisting of an active image (an
+     * {@code ImagePanel})
+     * and various menus which can be used to trigger operations to load, save,
+     * edit, etc.
+     * These operations are implemented {@link ImageOperation}s and triggerd via
      * {@code ImageAction}s grouped by their general purpose into menus.
      * </p>
      * 
@@ -53,6 +103,7 @@ public class Andie {
     private static void createAndShowGUI() throws Exception {
         // Set up the main GUI frame
         JFrame frame = new JFrame("ANDIE");
+        imagePanel.addMouseListener(mouseListener);
 
         Image image = ImageIO.read(new File("./src/icon.png"));
         frame.setIconImage(image);
@@ -66,7 +117,8 @@ public class Andie {
         // Add in menus for various types of action the user may perform.
         JMenuBar menuBar = new JMenuBar();
 
-        // File menus are pretty standard, so things that usually go in File menus go here.
+        // File menus are pretty standard, so things that usually go in File menus go
+        // here.
         FileActions fileActions = new FileActions();
         JMenuItem fActions = fileActions.createMenu();
         fActions.setMnemonic(KeyEvent.VK_Q);
@@ -78,13 +130,15 @@ public class Andie {
         eActions.setMnemonic(KeyEvent.VK_W);
         menuBar.add(eActions);
 
-        // View actions control how the image is displayed, but do not alter its actual content
+        // View actions control how the image is displayed, but do not alter its actual
+        // content
         ViewActions viewActions = new ViewActions();
         JMenuItem vActions = viewActions.createMenu();
         vActions.setMnemonic(KeyEvent.VK_E);
         menuBar.add(vActions);
 
-        // Filters apply a per-pixel operation to the image, generally based on a local window
+        // Filters apply a per-pixel operation to the image, generally based on a local
+        // window
         FilterActions filterActions = new FilterActions();
         JMenuItem filtActions = filterActions.createMenu();
         filtActions.setMnemonic(KeyEvent.VK_R);
@@ -107,6 +161,11 @@ public class Andie {
         JMenuItem cActions = colourActions.createMenu();
         menuBar.add(cActions);
 
+        // Actions that draw elements on the image
+        DrawActions drawActions = new DrawActions();
+        JMenuItem dActions = drawActions.createMenu();
+        menuBar.add(dActions);
+
         // Create the tool bar, which consists of sub toolbars for each action class
         JToolBar TB = new JToolBar();
         TB.add(fileActions.createToolBar());
@@ -116,46 +175,15 @@ public class Andie {
         TB.add(adjustmentActions.createToolBar());
         TB.add(transformsActions.createToolBar());
         TB.add(colourActions.createToolBar());
+        TB.add(drawActions.createToolBar());
 
         frame.add(TB, BorderLayout.NORTH);
-        
+
         frame.setJMenuBar(menuBar);
         frame.pack();
         frame.setVisible(true);
     }
 
-    /**
-     * <p>
-     * Method for retrieving information about the next mouse drag.
-     * </p>
-     * 
-     * <p>
-     * Retrieves and returns coordinates of mouse at the start and end of a mouse
-     * in the format of an int array (x1, y1, x2, y2).
-     * </p>
-     * 
-     * @return coordinates of mouse press and mouse release.
-     */
-    public static int[] mouseDrag(){
-        int[] dragCoordinates = new int[4];
-
-        // Mouse listener to get mouse coordinates on mouse click.
-        imagePanel.addMouseListener(new MouseAdapter(){
-            public void mousePressed(MouseEvent e){
-                System.out.println("press:\t " + e.getX() + "," + e.getY());
-                dragCoordinates[0] = e.getX();
-                dragCoordinates[1] = e.getY();
-            }
-            public void mouseReleased(MouseEvent e){
-                System.out.println("release: " + e.getX() + "," + e.getY());
-                dragCoordinates[2] = e.getX();
-                dragCoordinates[3] = e.getY();
-            }
-        });
-
-        return dragCoordinates;
-    }
-    
     /**
      * <p>
      * Main entry point to the ANDIE program.
@@ -173,9 +201,9 @@ public class Andie {
     public static void main(String[] args) throws Exception {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                try{
+                try {
                     createAndShowGUI();
-                }catch(Exception ex) {
+                } catch (Exception ex) {
                     System.out.println("EXIT");
                     System.exit(1);
                 }
