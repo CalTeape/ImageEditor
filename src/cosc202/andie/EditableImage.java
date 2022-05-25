@@ -246,7 +246,6 @@ class EditableImage {
      * @param op The operation to apply.
      */
     public void apply(ImageOperation op) {
-        System.out.println(op);
         current = op.apply(current);
         ops.add(op);
         if (macro) {
@@ -331,7 +330,6 @@ class EditableImage {
             @SuppressWarnings("unchecked")
             Stack<ImageOperation> newMacroOps = (Stack<ImageOperation>) obj.readObject();
             for (ImageOperation i : newMacroOps) {
-                System.out.println(i);
                 current = i.apply(current);
                 ops.add(i);
             }
