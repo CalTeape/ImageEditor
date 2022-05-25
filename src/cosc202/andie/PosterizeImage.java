@@ -4,9 +4,15 @@ import java.awt.image.BufferedImage;
 
 class PosterizeImage implements ImageOperation{
 
+
+
+class PosterizeImage implements ImageOperation{
+    
     public final int mode = 2;
     
-    public PosterizeImage() {}
+
+    public PosterizeImage(int range) {
+    }
 
     // @param takes BufferedImage
     // @return the modified BufferedImage

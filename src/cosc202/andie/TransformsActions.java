@@ -267,7 +267,13 @@ public class TransformsActions {
             target.repaint();
             target.getParent().revalidate();
          }catch(NullPointerException E){
+            if (Andie.mouseSelection == null) {
+               JOptionPane.showMessageDialog(null, "Please select the area you wish to crop and click crop again", "Notice",JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
             JOptionPane.showMessageDialog(null, "Error: there is no image loaded! please load an image before cropping", "alert!", JOptionPane.ERROR_MESSAGE);
+            }
+            
          }
       }
    }

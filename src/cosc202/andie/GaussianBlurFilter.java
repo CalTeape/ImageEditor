@@ -75,9 +75,7 @@ public class GaussianBlurFilter implements ImageOperation {
      * @return The resulting (blurred)) image.
      */
    public BufferedImage apply(BufferedImage input) {
-      BufferedImage output = new BufferedImage(input.getColorModel(), 
-                             input.copyData(null), 
-                             input.isAlphaPremultiplied(), null);
+      BufferedImage output = input;
      
       double[][] kernel = new double[2*radius + 1][2*radius + 1];
 
@@ -107,7 +105,6 @@ public class GaussianBlurFilter implements ImageOperation {
             kernel[x][y] = kernel[x][y]/total;
          }
       }
-
 
       //iterate through pixels in image
       for(int x = 0; x < input.getWidth(); x++){
@@ -145,7 +142,8 @@ public class GaussianBlurFilter implements ImageOperation {
                           for(int i = 0; i < 3; i++){ //use loop to iterate through colour channels.
                               rgbOutput[i] += kernel[radius + dx][radius + dy]*rgbaInput[i]; //add to current value in output array
                           }
-                      }
+                  }
+               }
 
               Color colOutput;
 
@@ -179,8 +177,6 @@ public class GaussianBlurFilter implements ImageOperation {
               output.setRGB(x, y, colOutput.getRGB()); //set pixel to this colour.
               }
           }
-      }
-
   return output;
   
   }
