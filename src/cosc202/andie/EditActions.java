@@ -141,8 +141,11 @@ public class EditActions {
         public void actionPerformed(ActionEvent e) {
 
             if (!(target.getImage().macro)) {
-                target.getImage().recordMacro();
-            } else {
+                int m = JOptionPane.showConfirmDialog(null, "Would you like to begin recording of a new Macro?\nMake sure there is currently an image open in the editor!", "New Macro?",  JOptionPane.YES_NO_OPTION);
+                    if (m == JOptionPane.YES_OPTION) {
+                        target.getImage().recordMacro();
+                    }
+                } else {
                 int r = JOptionPane.showConfirmDialog(null, "Would you like to save the current Macro?", "Save Macro?",  JOptionPane.YES_NO_OPTION);
                 if (r == JOptionPane.YES_OPTION) {
                     JFileChooser fChooser = new JFileChooser();
